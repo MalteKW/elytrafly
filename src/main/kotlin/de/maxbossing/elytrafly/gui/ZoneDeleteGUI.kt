@@ -41,7 +41,10 @@ class ZoneDeleteGUI(val player: Player, val zone: Zone) {
             itemStack(pseudoRandomMaterial(zone = zone)) {
                 meta {
                     displayName(cmp(zone.name, cAccent).lore())
-                    flags(ItemFlag.HIDE_ATTRIBUTES)
+
+                    addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
+                    addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+
                     setLore {
                         lorelist += cmp("World: ", cBase).lore() + cmp(zone.loc1.world.name, cAccent).lore()
                         lorelist += cmp("loc 1: ", cBase).lore() + cmp(xyzString(zone.loc1), cAccent).lore()
