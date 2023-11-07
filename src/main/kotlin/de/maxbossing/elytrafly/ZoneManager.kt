@@ -165,7 +165,9 @@ object ZoneManager {
 
                 addEnchant(Enchantment.ARROW_DAMAGE, 1, true)
                 addEnchant(Enchantment.BINDING_CURSE, 1, true)
+
                 addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
+                addItemFlags(ItemFlag.HIDE_ENCHANTS)
             }
         }
     }
