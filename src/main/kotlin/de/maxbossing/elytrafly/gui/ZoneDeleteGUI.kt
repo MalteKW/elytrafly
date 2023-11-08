@@ -40,15 +40,15 @@ class ZoneDeleteGUI(val player: Player, val zone: Zone) {
         return IntelligentItem.of(
             itemStack(pseudoRandomMaterial(zone = zone)) {
                 meta {
-                    displayName(cmp(zone.name, cAccent).lore())
+                    displayName(cmp(zone.name, cAccent))
 
                     addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
                     addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
 
                     setLore {
-                        lorelist += cmp("World: ", cBase).lore() + cmp(zone.loc1.world.name, cAccent).lore()
-                        lorelist += cmp("loc 1: ", cBase).lore() + cmp(xyzString(zone.loc1), cAccent).lore()
-                        lorelist += cmp("loc 2: ", cBase).lore() + cmp(xyzString(zone.loc2), cAccent).lore()
+                        lorelist += cmp("World: ", cBase) + cmp(zone.loc1.world.name, cAccent)
+                        lorelist += cmp("loc 1: ", cBase) + cmp(xyzString(zone.loc1), cAccent)
+                        lorelist += cmp("loc 2: ", cBase) + cmp(xyzString(zone.loc2), cAccent)
                     }
                 }
             }
@@ -59,7 +59,7 @@ class ZoneDeleteGUI(val player: Player, val zone: Zone) {
         return IntelligentItem.of(
             itemStack(Material.PLAYER_HEAD) {
                 meta<SkullMeta> {
-                    displayName(cmp("Abort", cBase).lore())
+                    displayName(cmp("Abort", cBase))
                     skullTexture(MXHeads.X_RED)
                 }
             }
@@ -73,7 +73,7 @@ class ZoneDeleteGUI(val player: Player, val zone: Zone) {
         return IntelligentItem.of(
             itemStack(Material.PLAYER_HEAD) {
                 meta<SkullMeta> {
-                    displayName(cmp("Confirm", cBase).lore())
+                    displayName(cmp("Confirm", cBase))
                     skullTexture(MXHeads.CHECKMARK_GREEN)
                 }
             }
