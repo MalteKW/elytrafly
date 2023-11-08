@@ -126,7 +126,7 @@ class ZoneGUI(val player: Player) {
         .rows(4)
         .provider(object : InventoryProvider {
             override fun init(player: Player, contents: InventoryContents) {
-                contents.fillBorders(itemStack(Material.GRAY_STAINED_GLASS_PANE) { meta { displayName(cmp("")) } })
+                contents.fillBorders(itemStack(Material.BLACK_STAINED_GLASS_PANE) { meta { displayName(cmp("")) } })
 
 
                 val pagination: Pagination = contents.pagination()
