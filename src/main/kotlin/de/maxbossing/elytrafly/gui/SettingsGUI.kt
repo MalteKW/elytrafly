@@ -178,6 +178,39 @@ class SettingsGUI(val player: Player) {
         }
     }
 
+    fun elytraNameDesign(): IntelligentItem {
+        return IntelligentItem.of(
+            itemStack(Material.PAPER) {
+                meta {
+                    displayName(cmp("Elytra Name", cBase))
+
+                    setLore {
+                        lorelist += cmp("Click to set the Elytra Name")
+                        lorelist += cmp("Supports MiniMessage", cBase)
+                        lorelist += cmp("Current Name: ", cBase) + ElytraFly.config.elytraConfig.name.deserialized
+                    }
+                }
+            }
+        ) {
+            it.whoClicked.closeInventory()
+            (it.whoClicked as Player).awaitChatInput(
+                question = prefix + cmp("Input the Elytra Name into the chat!"),
+                timeoutSeconds = 2 * 60
+            ) { result ->
+                ElytraFly.config.elytraConfig.name = PlainTextComponentSerializer.plainText().serialize(result.input!!)
+                gui.open(it.whoClicked as Player)
+                it.whoClicked.sendMessage(prefix + cmp("Elytra Name set!", cBase))
+                it.currentItem!!.meta {
+                    setLore {
+                        lorelist += cmp("Click to set the Elytra Name")
+                        lorelist += cmp("Supports MiniMessage", cBase)
+                        lorelist += cmp("Current Name: ", cBase) + ElytraFly.config.elytraConfig.name.deserialized
+                    }
+                }
+            }
+        }
+    }
+
     private val gui = RyseInventory.builder()
         .title(cmp("ElytraFly >>", cBase) + cmp(" Settings", cAccent))
         .rows(4)
@@ -200,6 +233,9 @@ class SettingsGUI(val player: Player) {
 
                 // 13 - Boost Design
                 contents.set(13, boostDesignItem())
+
+                // 22 - Elytra Name
+                contents.set(22, elytraNameDesign())
 
                 // 20 - Boost Strength
                 contents.set(20, boostStrengthItem())
