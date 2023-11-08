@@ -153,6 +153,7 @@ class SettingsGUI(val player: Player) {
 
                     setLore {
                         lorelist += cmp("Click to set the Plugin prefix")
+                        lorelist += cmp("Supports MiniMessage", cBase)
                         lorelist += cmp("Current Prefix: ", cBase) + prefix
                     }
                 }
@@ -169,6 +170,7 @@ class SettingsGUI(val player: Player) {
                 it.currentItem!!.meta {
                     setLore {
                         lorelist += cmp("Click to set the Plugin prefix")
+                        lorelist += cmp("Supports MiniMessage", cBase)
                         lorelist += cmp("Current Prefix: ", cBase) + prefix
                     }
                 }
