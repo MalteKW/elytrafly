@@ -48,9 +48,6 @@ class ZoneGUI(val player: Player) {
                     displayName(cmp(zone.name, cAccent))
                     flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS)
                     setLore {
-                        lorelist += cmp("World: ", cBase).lore() + cmp(zone.loc1.world.name, cAccent).lore()
-                        lorelist += cmp("loc 1: ", cBase).lore() + cmp(xyzString(zone.loc1), cAccent).lore()
-                        lorelist += cmp("loc 2: ", cBase).lore() + cmp(xyzString(zone.loc2), cAccent).lore()
                         lorelist += cmp("World: ", cBase) + cmp(zone.loc1.world.name, cAccent)
                         lorelist += cmp("loc 1: ", cBase) + cmp(xyzString(zone.loc1), cAccent)
                         lorelist += cmp("loc 2: ", cBase) + cmp(xyzString(zone.loc2), cAccent)
@@ -102,7 +99,7 @@ class ZoneGUI(val player: Player) {
             player.closeInventory()
 
             player.awaitChatInput(
-                question = cmp("Input the name of the Zone...", cBase),
+                question = prefix + cmp("Input the name of the Zone...", cBase),
             ){ it1 ->
                 if (it1.input == null)
                     return@awaitChatInput
