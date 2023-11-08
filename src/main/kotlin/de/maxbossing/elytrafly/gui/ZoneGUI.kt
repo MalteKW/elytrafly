@@ -10,7 +10,6 @@ import de.maxbossing.mxpaper.event.SingleListener
 import de.maxbossing.mxpaper.event.listen
 import de.maxbossing.mxpaper.event.unregister
 import de.maxbossing.mxpaper.extensions.bukkit.cmp
-import de.maxbossing.mxpaper.extensions.bukkit.lore
 import de.maxbossing.mxpaper.extensions.bukkit.plus
 import de.maxbossing.mxpaper.items.*
 import de.maxbossing.mxpaper.main.prefix
@@ -46,14 +45,17 @@ class ZoneGUI(val player: Player) {
         return IntelligentItem.of(
             itemStack(pseudoRandomMaterial(zone)) {
                 meta {
-                    displayName(cmp(zone.name, cAccent).lore())
+                    displayName(cmp(zone.name, cAccent))
                     flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS)
                     setLore {
                         lorelist += cmp("World: ", cBase).lore() + cmp(zone.loc1.world.name, cAccent).lore()
                         lorelist += cmp("loc 1: ", cBase).lore() + cmp(xyzString(zone.loc1), cAccent).lore()
                         lorelist += cmp("loc 2: ", cBase).lore() + cmp(xyzString(zone.loc2), cAccent).lore()
+                        lorelist += cmp("World: ", cBase) + cmp(zone.loc1.world.name, cAccent)
+                        lorelist += cmp("loc 1: ", cBase) + cmp(xyzString(zone.loc1), cAccent)
+                        lorelist += cmp("loc 2: ", cBase) + cmp(xyzString(zone.loc2), cAccent)
                         lorelist += cmp("")
-                        lorelist += cmp("Right-Click  ∙  ", cBase).lore() + cmp("Delete", bold = true, color = MXColors.INDIANRED).lore()
+                        lorelist += cmp("Right-Click  ∙  ", cBase) + cmp("Delete", bold = true, color = MXColors.INDIANRED)
                     }
                 }
             }
@@ -93,7 +95,7 @@ class ZoneGUI(val player: Player) {
         return IntelligentItem.of(
             itemStack(Material.SUNFLOWER) {
                 meta {
-                    displayName(cmp("New Zone", cBase).lore())
+                    displayName(cmp("New Zone", cBase))
                 }
             }
         ) {
