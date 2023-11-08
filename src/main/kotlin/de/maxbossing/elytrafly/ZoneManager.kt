@@ -43,7 +43,8 @@ object ZoneManager {
 
     lateinit var elytra: ItemStack
 
-    lateinit var boostFirework: ItemStack
+    val boostFirework: ItemStack
+        get() = buildBoostFirework()
 
     var boostDelays = mutableListOf<Player>()
 
@@ -115,7 +116,6 @@ object ZoneManager {
 
     init {
         elytra = buildElytra()
-        boostFirework = buildBoostFirework()
     }
 
     private fun giveElytra(player: Player) {
