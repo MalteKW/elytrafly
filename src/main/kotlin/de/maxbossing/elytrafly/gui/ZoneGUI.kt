@@ -119,6 +119,17 @@ class ZoneGUI(val player: Player) {
         }
     }
 
+    fun settingsButton(): IntelligentItem {
+        return IntelligentItem.of(
+            itemStack(Material.CRAFTING_TABLE) {
+                meta {
+                    displayName(cmp("Settings", cBase))
+                }
+            }
+        ) {
+            SettingsGUI(player)
+        }
+    }
 
     var gui = RyseInventory
         .builder()
@@ -175,6 +186,10 @@ class ZoneGUI(val player: Player) {
 
                 // Create new Zone
                 contents.set(35, createButton())
+
+                // Settings
+                contents.set(27, settingsButton())
+
             }
         }).build(elytrafly)
 
