@@ -3,6 +3,7 @@ package de.maxbossing.elytrafly
 import de.maxbossing.elytrafly.commands.ElytraFlyCommands
 import de.maxbossing.elytrafly.data.Config
 import de.maxbossing.elytrafly.data.loadConfig
+import de.maxbossing.elytrafly.metrics.Metrics
 import de.maxbossing.elytrafly.utils.debug
 import de.maxbossing.mxpaper.MXColors
 import de.maxbossing.mxpaper.extensions.bukkit.cmp
@@ -54,6 +55,9 @@ class ElytraFly: MXPaper() {
 
         // Admin GUI
         ElytraFlyCommands; debug("Commands Loaded")
+
+        //bStats Log
+        Metrics(this, 20247); debug("Requested bStats log")
 
         logger.info("ElytraFly enabled!")
     }
