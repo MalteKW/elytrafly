@@ -7,10 +7,14 @@ plugins {
     id("io.papermc.paperweight.userdev") version "1.5.9"
     id("xyz.jpenilla.run-paper") version "2.2.0"
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
+
+    id("com.modrinth.minotaur") version "2.+"
 }
 
 group = "de.maxbossing"
-version = 12
+version = 13
+
+val modrinthID = "elytrafly"
 
 repositories {
     mavenCentral()
@@ -61,4 +65,19 @@ bukkit {
 
     apiVersion = "1.20"
     load = BukkitPluginDescription.PluginLoadOrder.POSTWORLD
+}
+
+// Modrinth Upload
+modrinth {
+    projectId.set(modrinthID)
+
+    versionName.set("ElytraFly $version")
+
+    loaders.addAll("paper", "purpur")
+
+    gameVersions.addAll("1.20.1", "1.20.2")
+
+    uploadFile.set(rootProject.file("build/libs/${rootProject.name}-$version.jar"))
+
+    //TODO: Sync README with modrinth
 }
