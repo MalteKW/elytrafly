@@ -2,6 +2,7 @@ package de.maxbossing.elytrafly
 
 import de.maxbossing.elytrafly.data.Permissions
 import de.maxbossing.elytrafly.data.Zone
+import de.maxbossing.mxpaper.MXColors
 import de.maxbossing.mxpaper.event.listen
 import de.maxbossing.mxpaper.extensions.bukkit.cmp
 import de.maxbossing.mxpaper.extensions.bukkit.isInArea
@@ -9,8 +10,11 @@ import de.maxbossing.mxpaper.extensions.bukkit.plus
 import de.maxbossing.mxpaper.items.flags
 import de.maxbossing.mxpaper.items.itemStack
 import de.maxbossing.mxpaper.items.meta
-import de.maxbossing.mxpaper.main.prefix
 import de.maxbossing.mxpaper.runnables.taskRunLater
+import net.kyori.adventure.text.Component
+import net.md_5.bungee.api.chat.KeybindComponent
+import net.md_5.bungee.api.chat.Keybinds
+import net.minecraft.network.chat.contents.KeybindResolver
 import org.bukkit.Color
 import org.bukkit.FireworkEffect
 import org.bukkit.Location
@@ -23,7 +27,6 @@ import org.bukkit.event.entity.EntityToggleGlideEvent
 import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.event.player.PlayerSwapHandItemsEvent
-import org.bukkit.event.player.PlayerToggleFlightEvent
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.FireworkMeta
@@ -64,7 +67,10 @@ object ZoneManager {
                 giveElytra(player)
                 player.sendMessage(cmp("You got an Elytra!", cBase))
                 if (player.hasPermission(Permissions.BOOST))
-                    player.sendMessage(cmp("Press", cBase) + cmp(" F ", cAccent) + cmp("to boost!"))
+                    player.sendMessage(
+                        cmp("Press ", cBase) +
+                                Component.keybind().keybind("key.swapOffhand").build().color(MXColors.CORNFLOWERBLUE) +
+                        cmp(" to boost!"))
             }
         }
     }
