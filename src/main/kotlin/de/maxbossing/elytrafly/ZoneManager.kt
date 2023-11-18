@@ -96,14 +96,15 @@ object ZoneManager {
             }
         }
         taskRunLater((20).toLong(), true){
-            (it.entity as Player).inventory.chestplate = chestPlates[it.entity as Player]
-            chestPlates[it.entity as Player] = null
+            (it.entity as Player).inventory.chestplate = chestPlates[it.entity]
+
         }
     }
 
     val damageListener = listen<EntityDamageEvent>(priority = EventPriority.HIGHEST) {
         if (it.entity !is Player)return@listen
         if ((it.entity as Player).inventory.chestplate != elytra)return@listen
+        if (it.cause != EntityDamageEvent.DamageCause.FALL || it.cause != EntityDamageEvent.DamageCause.FLY_INTO_WALL)return@listen
         it.isCancelled = true
     }
 
@@ -130,7 +131,6 @@ object ZoneManager {
         chestPlates[player] = player.inventory.chestplate
 
         player.inventory.chestplate = elytra
-        //TODO: Messages
     }
 
     fun buildBoostFirework(): ItemStack {
