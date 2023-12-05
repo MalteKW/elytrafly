@@ -83,9 +83,9 @@ object ZoneManager {
         if (!it.player.isGliding)return@listen
         if (boostDelays.contains(it.player))return@listen
 
-        if (config.elytraConfig.boostConfig.maxBoosts == 0)return@listen
+        if (config.elytraConfig.boostConfig.maxBoosts == 0 && !it.player.hasPermission(Permissions.BOOST_MAX_BYPASS))return@listen
 
-        if (config.elytraConfig.boostConfig.maxBoosts != -1) {
+        if (config.elytraConfig.boostConfig.maxBoosts != -1 && !it.player.hasPermission(Permissions.BOOST_MAX_BYPASS)) {
             if (boostUses.getOrPut(it.player, { 1 }) <= config.elytraConfig.boostConfig.maxBoosts) {
                 boostUses[it.player] = boostUses[it.player]!! + 1
             } else {
