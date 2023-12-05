@@ -27,6 +27,8 @@ To open the Settings, click on the Workbench in the lower left corner of the GUI
 If boost is activated, Player with the `elytrafly.boost` permission can use the `F` key to boost themselves in mid-air
 #### Boost Strength
 Boost Strength defines how long the Boost will last. every level is approximately half a second of boost
+#### Max Boosts
+How many boosts a Player can use per flight. -1 for infinite, 0 for none
 #### Boost Delay
 How many seconds player have to wait until they can boost again
 #### Prefix
