@@ -32,6 +32,7 @@ data class ElytraConfig(
 @Serializable
 data class BoostConfig(
     var boost: Boolean,
+    var maxBoosts: Int = -1,
     var boostStrength: Int,
     var boostDelay: Int,
     var boostDesign: BoostDesign
@@ -71,6 +72,7 @@ fun loadConfig(): Config {
 
                         boostConfig = BoostConfig(
                             boost = true,
+                            maxBoosts = -1,
                             boostStrength = 1,
                             boostDelay = 2,
                             boostDesign = BoostDesign(

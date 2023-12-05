@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "de.maxbossing"
-version = 13
+version = 15
 
 val modrinthID = "elytrafly"
 

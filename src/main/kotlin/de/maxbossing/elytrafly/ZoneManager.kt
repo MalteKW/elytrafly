@@ -2,6 +2,7 @@ package de.maxbossing.elytrafly
 
 import de.maxbossing.elytrafly.data.Permissions
 import de.maxbossing.elytrafly.data.Zone
+import de.maxbossing.elytrafly.utils.debug
 import de.maxbossing.mxpaper.MXColors
 import de.maxbossing.mxpaper.event.listen
 import de.maxbossing.mxpaper.extensions.bukkit.cmp
@@ -12,9 +13,6 @@ import de.maxbossing.mxpaper.items.itemStack
 import de.maxbossing.mxpaper.items.meta
 import de.maxbossing.mxpaper.runnables.taskRunLater
 import net.kyori.adventure.text.Component
-import net.md_5.bungee.api.chat.KeybindComponent
-import net.md_5.bungee.api.chat.Keybinds
-import net.minecraft.network.chat.contents.KeybindResolver
 import org.bukkit.Color
 import org.bukkit.FireworkEffect
 import org.bukkit.Location
@@ -37,6 +35,8 @@ object ZoneManager {
 
     var chestPlates = mutableMapOf<Player, ItemStack?>()
 
+    var boostUses = mutableMapOf<Player, Int>()
+
     var zones: List<Zone>
         get() = ElytraFly.config.zones
         set(value) {
@@ -55,6 +55,7 @@ object ZoneManager {
     val leaveListener = listen<PlayerQuitEvent> {
         if (!chestPlates.containsKey(it.player))return@listen
         it.player.inventory.chestplate = chestPlates[it.player]
+        boostUses[it.player] = 0
     }
 
     val giveListener = listen<PlayerMoveEvent> {
@@ -81,6 +82,17 @@ object ZoneManager {
         if (!it.player.hasPermission(Permissions.BOOST))return@listen
         if (!it.player.isGliding)return@listen
         if (boostDelays.contains(it.player))return@listen
+
+        if (config.elytraConfig.boostConfig.maxBoosts == 0)return@listen
+
+        if (config.elytraConfig.boostConfig.maxBoosts != -1) {
+            if (boostUses.getOrPut(it.player, { 1 }) <= config.elytraConfig.boostConfig.maxBoosts) {
+                boostUses[it.player] = boostUses[it.player]!! + 1
+            } else {
+                return@listen
+            }
+        }
+
         it.player.boostElytra(boostFirework)
         boostDelays += it.player
         taskRunLater((config.elytraConfig.boostConfig.boostDelay * 20).toLong(), true) { boostDelays -= it.player}
@@ -90,6 +102,9 @@ object ZoneManager {
         if (it.entity !is Player)return@listen
         if ((it.entity as Player).inventory.chestplate != elytra)return@listen
         if (it.isGliding)return@listen
+
+        boostUses[it.entity as Player] = 0
+
         for (zone in zones) {
             if ((it.entity as Player).isInArea(zone.loc1, zone.loc2)) {
                 return@listen
@@ -104,7 +119,7 @@ object ZoneManager {
     val damageListener = listen<EntityDamageEvent>(priority = EventPriority.HIGHEST) {
         if (it.entity !is Player)return@listen
         if ((it.entity as Player).inventory.chestplate != elytra)return@listen
-        if (it.cause != EntityDamageEvent.DamageCause.FALL || it.cause != EntityDamageEvent.DamageCause.FLY_INTO_WALL)return@listen
+        if (it.cause != EntityDamageEvent.DamageCause.FALL && it.cause != EntityDamageEvent.DamageCause.FLY_INTO_WALL && it.cause != EntityDamageEvent.DamageCause.ENTITY_EXPLOSION)return@listen
         it.isCancelled = true
     }
 

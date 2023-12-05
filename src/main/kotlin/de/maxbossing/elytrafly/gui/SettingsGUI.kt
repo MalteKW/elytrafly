@@ -12,6 +12,7 @@ import de.maxbossing.mxpaper.extensions.bukkit.cmp
 import de.maxbossing.mxpaper.extensions.bukkit.lore
 import de.maxbossing.mxpaper.extensions.bukkit.plus
 import de.maxbossing.mxpaper.extensions.deserialized
+import de.maxbossing.mxpaper.items.itemMeta
 import de.maxbossing.mxpaper.items.itemStack
 import de.maxbossing.mxpaper.items.meta
 import de.maxbossing.mxpaper.items.setLore
@@ -120,12 +121,13 @@ class SettingsGUI(val player: Player) {
             } else {
                 config.elytraConfig.boostConfig.boostDelay += 1
             }
-            it.currentItem!!.meta {setLore {
-                lorelist += cmp("Current: ", cBase) + cmp(config.elytraConfig.boostConfig.boostDelay.toString(), cAccent)
-                lorelist += cmp(" ")
-                lorelist += cmp("Right-Click • ", cBase) + cmp(" +1", cAccent)
-                lorelist += cmp("Left-Click • ", cBase) + cmp("-1", cAccent)
-            }
+            it.currentItem!!.meta {
+                setLore {
+                    lorelist += cmp("Current: ", cBase) + cmp(config.elytraConfig.boostConfig.boostDelay.toString(), cAccent)
+                    lorelist += cmp(" ")
+                    lorelist += cmp("Right-Click • ", cBase) + cmp(" +1", cAccent)
+                    lorelist += cmp("Left-Click • ", cBase) + cmp("-1", cAccent)
+                }
             }
         }
     }
@@ -211,6 +213,39 @@ class SettingsGUI(val player: Player) {
         }
     }
 
+    fun maxUsesButton(): IntelligentItem {
+        return IntelligentItem.of(
+            itemStack(Material.GOLDEN_APPLE) {
+                meta {
+                    displayName(cmp("Max Boosts per flight", cBase))
+
+                    setLore {
+                        lorelist += cmp("Current: ", cBase) + cmp(if (config.elytraConfig.boostConfig.maxBoosts == -1) "Infinite" else config.elytraConfig.boostConfig.maxBoosts.toString(), cAccent)
+                        lorelist += cmp(" ")
+                        lorelist += cmp("Right-Click • ", cBase) + cmp(" +1", cAccent)
+                        lorelist += cmp("Left-Click • ", cBase) + cmp("-1", cAccent)
+                    }
+                }
+            }
+        ) {
+            if (it.isLeftClick) {
+                if (config.elytraConfig.boostConfig.maxBoosts == -1) return@of
+                    config.elytraConfig.boostConfig.maxBoosts -= 1
+            } else {
+                config.elytraConfig.boostConfig.maxBoosts += 1
+            }
+
+            it.currentItem!!.meta {
+                setLore {
+                    lorelist += cmp("Current: ", cBase) + cmp(if (config.elytraConfig.boostConfig.maxBoosts == -1) "Infinite" else config.elytraConfig.boostConfig.maxBoosts.toString(), cAccent)
+                    lorelist += cmp(" ")
+                    lorelist += cmp("Right-Click • ", cBase) + cmp(" +1", cAccent)
+                    lorelist += cmp("Left-Click • ", cBase) + cmp("-1", cAccent)
+                }
+            }
+        }
+    }
+
     private val gui = RyseInventory.builder()
         .title(cmp("ElytraFly >>", cBase) + cmp(" Settings", cAccent))
         .rows(4)
@@ -228,24 +263,26 @@ class SettingsGUI(val player: Player) {
                 // 0 - Back
                 contents.set(0, backButton())
 
-                // 11 - Boost
-                contents.set(11, boostItem())
+                // 10 - Boost
+                contents.set(10, boostItem())
 
-                // 13 - Boost Design
-                contents.set(13, boostDesignItem())
+                // 12 - Boost Design
+                contents.set(12, boostDesignItem())
 
-                // 22 - Elytra Name
-                contents.set(22, elytraNameDesign())
+                // 21 - Elytra Name
+                contents.set(21, elytraNameDesign())
 
-                // 20 - Boost Strength
-                contents.set(20, boostStrengthItem())
+                // 19 - Boost Strength
+                contents.set(19, boostStrengthItem())
 
-                // 15 - Boost delay
-                contents.set(15, boostDelayItem())
+                // 14 - Boost delay
+                contents.set(14, boostDelayItem())
 
-                // 24 - Prefix Setting
-                contents.set(24, prefixButton())
+                // 23 - Prefix Setting
+                contents.set(23, prefixButton())
 
+                // 16 - Max Boosts Settings
+                contents.set(16, maxUsesButton())
 
             }
         })

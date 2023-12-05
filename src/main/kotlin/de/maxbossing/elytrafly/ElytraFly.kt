@@ -56,8 +56,10 @@ class ElytraFly: MXPaper() {
         // Admin GUI
         ElytraFlyCommands; debug("Commands Loaded")
 
-        //bStats Log
-        Metrics(this, 20247); debug("Requested bStats log")
+        // bStats Log
+        // We don't want fake data
+        if (!ElytraFly.config.debug)
+            Metrics(this, 20247); debug("Requested bStats log")
 
         logger.info("ElytraFly enabled!")
     }
