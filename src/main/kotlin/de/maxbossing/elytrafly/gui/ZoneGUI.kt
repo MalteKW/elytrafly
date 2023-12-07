@@ -20,6 +20,7 @@ import io.github.rysefoxx.inventory.plugin.content.InventoryProvider
 import io.github.rysefoxx.inventory.plugin.pagination.Pagination
 import io.github.rysefoxx.inventory.plugin.pagination.RyseInventory
 import io.github.rysefoxx.inventory.plugin.pagination.SlotIterator
+import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import org.bukkit.Location
 import org.bukkit.Material
@@ -49,10 +50,13 @@ class ZoneGUI(val player: Player) {
                     displayName(cmp(zone.name, cAccent))
                     flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS)
                     setLore {
+                        lorelist += cmp("Active: ", cBase) + if (ZoneManager.isActive(zone.name)) cmp("yes", MXColors.GREEN) else cmp("no", MXColors.RED)
+                        lorelist += cmp("")
                         lorelist += cmp("World: ", cBase) + cmp(zone.loc1.world.name, cAccent)
                         lorelist += cmp("loc 1: ", cBase) + cmp(xyzString(zone.loc1), cAccent)
                         lorelist += cmp("loc 2: ", cBase) + cmp(xyzString(zone.loc2), cAccent)
                         lorelist += cmp("")
+                        lorelist += cmp("Left-Click  ∙  ", cBase) + cmp("Toggle", cAccent)
                         lorelist += cmp("Right-Click  ∙  ", cBase) + cmp("Delete", bold = true, color = MXColors.INDIANRED)
                     }
                 }
@@ -60,8 +64,25 @@ class ZoneGUI(val player: Player) {
         ) {
             if (it.isRightClick)
                 ZoneDeleteGUI(player, zone)
-        }
+            if (it.isLeftClick)
+                if (zone.active)
+                    ZoneManager.deactivateZone(zone.name)
+                else
+                    ZoneManager.activateZone(zone.name)
 
+            it.currentItem!!.meta {
+                setLore {
+                    lorelist += cmp("Active: ", cBase) + if (ZoneManager.isActive(zone.name)) cmp("yes", MXColors.GREEN) else cmp("no", MXColors.RED)
+                    lorelist += cmp("")
+                    lorelist += cmp("World: ", cBase) + cmp(zone.loc1.world.name, cAccent)
+                    lorelist += cmp("loc 1: ", cBase) + cmp(xyzString(zone.loc1), cAccent)
+                    lorelist += cmp("loc 2: ", cBase) + cmp(xyzString(zone.loc2), cAccent)
+                    lorelist += cmp("")
+                    lorelist += cmp("Left-Click  ∙  ", cBase) + cmp("Toggle", cAccent)
+                    lorelist += cmp("Right-Click  ∙  ", cBase) + cmp("Delete", bold = true, color = MXColors.INDIANRED)
+                }
+            }
+        }
     }
 
     fun createButton(): IntelligentItem {
@@ -107,16 +128,12 @@ class ZoneGUI(val player: Player) {
                 else {
                     awaitBlockInput { it2 ->
                         awaitBlockInput { it3 ->
-                            ZoneManager.addZone(Zone(PlainTextComponentSerializer.plainText().serialize(it1.input!!), it2, it3))
+                            ZoneManager.addZone(Zone(PlainTextComponentSerializer.plainText().serialize(it1.input!!), true, it2, it3))
                             player.sendMessage(prefix + cmp("Zone added!", cBase))
                         }
                     }
                 }
             }
-
-
-
-
         }
     }
 

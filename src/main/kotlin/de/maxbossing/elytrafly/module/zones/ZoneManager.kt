@@ -2,11 +2,14 @@ package de.maxbossing.elytrafly.module.zones
 
 import de.maxbossing.elytrafly.ElytraFly
 import de.maxbossing.elytrafly.cBase
+import de.maxbossing.elytrafly.data.Permissions
 import de.maxbossing.elytrafly.data.Zone
 import de.maxbossing.elytrafly.mn
 import de.maxbossing.elytrafly.module.settings.VanillaSettingsProvider
+import de.maxbossing.elytrafly.utils.debug
 import de.maxbossing.mxpaper.MXColors
 import de.maxbossing.mxpaper.extensions.bukkit.cmp
+import de.maxbossing.mxpaper.extensions.bukkit.isInArea
 import de.maxbossing.mxpaper.extensions.bukkit.plus
 import de.maxbossing.mxpaper.items.flags
 import de.maxbossing.mxpaper.items.itemStack
@@ -213,7 +216,7 @@ object ZoneManager {
      * @param loc2 The opposite corner of the [Zone]
      * @return false if zone already exists
      */
-    fun addZone(name: String, loc1: Location, loc2: Location): Boolean = addZone(Zone(name, loc1, loc2))
+    fun addZone(name: String, loc1: Location, loc2: Location): Boolean = addZone(Zone(name, true, loc1, loc2))
 
     /**
      * Adds a [Zone] to the Zone List
@@ -237,6 +240,55 @@ object ZoneManager {
             if (it.name == name) {
                 zones -= it
                 return true
+            }
+        }
+        return false
+    }
+
+    fun isInZone(player: Player): Zone? {
+        for (zone in zones) {
+            if (!isActive(zone.name))
+                if (!player.hasPermission(Permissions.zoneBypass(zone.name)) && !player.hasPermission(Permissions.ZONE_BYPASS_ALL))
+                    continue
+            if (player.isInArea(zone.loc1, zone.loc2))
+                return zone
+        }
+        return null
+    }
+
+    fun activateZone(name: String): Boolean {
+        zones.forEach {
+            if (it.name == name) {
+                if (it.active)
+                    return false
+
+                it.active = true
+
+                debug("Activated zone ${it.name}")
+                return true
+            }
+        }
+        return false
+    }
+
+    fun deactivateZone(name: String): Boolean {
+        zones.forEach {
+            if (it.name == name) {
+                if (!it.active)
+                    return false
+
+                it.active = false
+                debug("Deactivated zone ${it.name}")
+                return true
+            }
+        }
+        return false
+    }
+
+    fun isActive(name: String): Boolean {
+        zones.forEach {
+            if (it.name == name) {
+                return it.active
             }
         }
         return false

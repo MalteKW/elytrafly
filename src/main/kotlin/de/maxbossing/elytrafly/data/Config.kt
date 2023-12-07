@@ -49,6 +49,7 @@ data class BoostDesign(
 @Serializable
 data class Zone(
     var name: String,
+    var active: Boolean = true,
     var loc1: @Serializable(with = LocationSerializer::class) Location,
     var loc2: @Serializable(with = LocationSerializer::class) Location
 )

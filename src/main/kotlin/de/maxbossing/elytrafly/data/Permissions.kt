@@ -9,4 +9,7 @@ object Permissions {
     const val DELAY_BYPASS = "$BASE.delay.bypass"
 
     const val GUI = "$BASE.gui"
+
+    const val ZONE_BYPASS_ALL = "$BASE.zone.bypass"
+    fun zoneBypass(name: String) = "$BASE.zone.bypass.${name.replace(" ", "-")}"
 }

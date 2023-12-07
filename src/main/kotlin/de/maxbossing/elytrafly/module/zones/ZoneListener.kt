@@ -2,6 +2,7 @@ package de.maxbossing.elytrafly.module.zones
 
 import de.maxbossing.elytrafly.ElytraFly
 import de.maxbossing.elytrafly.data.Permissions
+import de.maxbossing.elytrafly.data.Zone
 import de.maxbossing.mxpaper.event.listen
 import de.maxbossing.mxpaper.extensions.bukkit.isInArea
 import de.maxbossing.mxpaper.runnables.taskRunLater
@@ -35,9 +36,8 @@ object ZoneListener {
         // No need to do it again if a Player already has a chestplate
         if (player.inventory.chestplate == ZoneManager.elytra)return@listen
 
-        for (zone in ZoneManager.zones)
-            if (player.isInArea(zone.loc1, zone.loc2))
-                ZoneManager.giveElytra(player)
+        if (ZoneManager.isInZone(player) != null)
+            ZoneManager.giveElytra(player)
     }
 
     /**
@@ -86,11 +86,8 @@ object ZoneListener {
 
         ZoneManager.usedBoosts.remove(it.entity)
 
-        for (zone in ZoneManager.zones) {
-            if ((it.entity as Player).isInArea(zone.loc1, zone.loc2)) {
-                return@listen
-            }
-        }
+        if (ZoneManager.isInZone(it.entity as Player) != null)
+            return@listen
 
         taskRunLater(
             (20).toLong(),
@@ -121,10 +118,8 @@ object ZoneListener {
 
         if (it.player.isGliding) return@listen
 
-        for (zone in ZoneManager.zones)
-            if (it.player.isInArea(zone.loc1, zone.loc2))
-                return@listen
-
+        if (ZoneManager.isInZone(it.player) != null)
+            return@listen
 
         taskRunLater(
             (20).toLong(),
