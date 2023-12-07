@@ -2,13 +2,12 @@ package de.maxbossing.elytrafly.gui
 
 import de.maxbossing.elytrafly.*
 import de.maxbossing.elytrafly.data.Zone
+import de.maxbossing.elytrafly.module.zones.ZoneManager
 import de.maxbossing.elytrafly.utils.skullTexture
 import de.maxbossing.mxpaper.MXColors
 import de.maxbossing.mxpaper.MXHeads
 import de.maxbossing.mxpaper.extensions.bukkit.cmp
-import de.maxbossing.mxpaper.extensions.bukkit.lore
 import de.maxbossing.mxpaper.extensions.bukkit.plus
-import de.maxbossing.mxpaper.items.flags
 import de.maxbossing.mxpaper.items.itemStack
 import de.maxbossing.mxpaper.items.meta
 import de.maxbossing.mxpaper.items.setLore

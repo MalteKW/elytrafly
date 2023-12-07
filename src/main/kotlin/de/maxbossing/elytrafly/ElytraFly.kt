@@ -4,15 +4,18 @@ import de.maxbossing.elytrafly.commands.ElytraFlyCommands
 import de.maxbossing.elytrafly.data.Config
 import de.maxbossing.elytrafly.data.loadConfig
 import de.maxbossing.elytrafly.metrics.Metrics
+import de.maxbossing.elytrafly.module.settings.LuckpermsSettingsProvider
+import de.maxbossing.elytrafly.module.settings.SettingsProvider
+import de.maxbossing.elytrafly.module.settings.VanillaSettingsProvider
+import de.maxbossing.elytrafly.module.zones.ZoneManager
 import de.maxbossing.elytrafly.utils.debug
 import de.maxbossing.mxpaper.MXColors
-import de.maxbossing.mxpaper.extensions.bukkit.cmp
+import de.maxbossing.mxpaper.extensions.pluginManager
 import de.maxbossing.mxpaper.main.MXPaper
 import de.maxbossing.mxpaper.main.prefix
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIBukkitConfig
 import io.github.rysefoxx.inventory.plugin.pagination.InventoryManager
-import io.github.rysefoxx.inventory.plugin.pagination.RyseInventory
 import net.kyori.adventure.text.minimessage.MiniMessage
 
 class ElytraFly: MXPaper() {
@@ -21,6 +24,8 @@ class ElytraFly: MXPaper() {
         lateinit var elytrafly: ElytraFly
         // Config
         lateinit var config: Config
+        // SettingsProvider
+        lateinit var settingsProvider: SettingsProvider
     }
 
     // Inventory API
@@ -50,6 +55,13 @@ class ElytraFly: MXPaper() {
         // Inventories
         invManager.invoke(); debug("Inventory API enabled")
 
+        // Set SettingsProvider
+        settingsProvider = if (pluginManager.isPluginEnabled("LuckPerms")) {
+            LuckpermsSettingsProvider
+        } else {
+            VanillaSettingsProvider
+        }
+
         // This manages the whole elytra system
         ZoneManager; debug("ZoneManager started")
 
@@ -59,7 +71,7 @@ class ElytraFly: MXPaper() {
         // bStats Log
         // We don't want fake data
         if (!ElytraFly.config.debug)
-            Metrics(this, 20247); debug("Requested bStats log")
+            Metrics(this, 20247)
 
         logger.info("ElytraFly enabled!")
     }

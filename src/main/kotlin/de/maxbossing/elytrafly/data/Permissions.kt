@@ -6,5 +6,7 @@ object Permissions {
     const val BOOST = "$BASE.boost"
     const val BOOST_MAX_BYPASS = "$BOOST.bypass"
 
+    const val DELAY_BYPASS = "delay.bypass"
+
     const val GUI = "$BASE.gui"
 }

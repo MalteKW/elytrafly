@@ -5,12 +5,12 @@ import de.maxbossing.elytrafly.cAccent
 import de.maxbossing.elytrafly.elytrafly
 import de.maxbossing.elytrafly.cBase
 import de.maxbossing.elytrafly.gui.SettingsGUI
+import de.maxbossing.elytrafly.module.zones.ZoneManager
 import de.maxbossing.elytrafly.utils.skullTexture
 import de.maxbossing.mxpaper.MXColors
 import de.maxbossing.mxpaper.MXHeads
 import de.maxbossing.mxpaper.extensions.bukkit.cmp
 import de.maxbossing.mxpaper.extensions.bukkit.plus
-import de.maxbossing.mxpaper.extensions.println
 import de.maxbossing.mxpaper.items.flag
 import de.maxbossing.mxpaper.items.itemStack
 import de.maxbossing.mxpaper.items.meta
@@ -23,7 +23,6 @@ import org.bukkit.Color
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemFlag
-import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.LeatherArmorMeta
 import org.bukkit.inventory.meta.SkullMeta
 
@@ -109,6 +108,7 @@ class BoostDesign(val player: Player) {
                 this.flicker = this@BoostDesign.flicker
                 this.trail = this@BoostDesign.trail
             }
+            ZoneManager.rebuildBoostFirework()
             SettingsGUI(player)
         }
     }

@@ -2,6 +2,7 @@ package de.maxbossing.elytrafly.gui
 
 import de.maxbossing.elytrafly.*
 import de.maxbossing.elytrafly.data.Zone
+import de.maxbossing.elytrafly.module.zones.ZoneManager
 import de.maxbossing.elytrafly.utils.skullTexture
 import de.maxbossing.mxpaper.MXColors
 import de.maxbossing.mxpaper.MXHeads

@@ -1,5 +1,6 @@
 package de.maxbossing.elytrafly.commands
 
+import de.maxbossing.elytrafly.ElytraFly
 import de.maxbossing.elytrafly.cBase
 import de.maxbossing.elytrafly.gui.ZoneGUI
 import de.maxbossing.elytrafly.data.Permissions
