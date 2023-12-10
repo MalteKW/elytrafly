@@ -14,7 +14,10 @@
 * [Boost Designs](#boost-designs)
   * [Colors](#colors)
 * [Permissions](#permissions)
-* [Luckperms Integration](#luckperms)
+* [Plugin Integrations](#integrations)
+  * [Luckperms Integration](#luckperms)
+  * [PlaceholderAPI Integration](#placeholderapi)
+* [License](#license)
 
 ## Setup
 Download the Plugin, put it in `plugins/` and restart the server
@@ -43,7 +46,7 @@ Zones can be restricted to specific players/permission groups
 * The permission is constructed from `elytrafly.zone.` and the unique name of the zone, lowercase and with whitespaces replaced with `-`
   * Example: Zone `Test Zone` has the permission `elytrafly.zone.test-zone`
   * 
-> [!INFO]
+> [!INFO]  
 > ElytraFly only enforces the Permissions when the `restricted` flag of the zone is set to true  
 > This can be done in the Zone GUI
 
@@ -91,16 +94,31 @@ You can easily define the colors of your elytra just by clicking items!
 | `elytrafly.zone.bypass`     | Allows Players to use **all** zones, even if they are restricted                                                          |
 | `elytrafly.zone.ZONE_NAME`  | Allows players to use a zone if it's restricted (The zones name is fully lowercase and Whitespaces are translated to `-`) |
 
-## Luckperms
-Elytrafly offers first-class Support for Luckperms to fine-tune player-specific settings like max boosts, delays, etc...
+## Integrations
 
-This is done using so-called [Meta Variables](https://luckperms.net/wiki/Prefixes,-Suffixes-&-Meta). refer to the [wiki](https://luckperms.net/wiki/Prefixes,-Suffixes-&-Meta) for a guide how to use them
+Elytrafly offers first-class Support for multiple popular plugins, like [Luckperms](https://luckperms.net) or [PlaceholderAPI](https://github.com/PlaceholderAPI/PlaceholderAPI)
+
+### Luckperms
+You can use Luckperms [Meta Variables](https://luckperms.net/wiki/Prefixes,-Suffixes-&-Meta) to fine-tune specific Settings of Elytrafly per player. Refer to the [wiki](https://luckperms.net/wiki/Prefixes,-Suffixes-&-Meta) for a guide how to use them
 
 | Variable name           | Description                                               |
 |-------------------------|-----------------------------------------------------------|
 | `elytrafly.max-boosts`  | How many boosts a Player/Group can use per Flight         |
 | `elytrafly.boost-delay` | How long the delay between boosts is for the Player/Group |
 
+### PlaceholderAPI
+ElytraFly offers an expansion for [PlaceholderAPI](https://github.com/PlaceholderAPI/PlaceholderAPI) to display additional information to Players
+
+> [!INFO]  
+> You do not need to worry about enabling the Placeholders, ElytraFly will register them automatically when PlaceholderAPI is being detected on the Server
+
+| Placeholder    | Description                                                                           |
+|----------------|---------------------------------------------------------------------------------------|
+| `zones_count`  | The total of zones set on the server                                                  |
+| `current_zone` | The name of the zone in which the Player is standing (null if not standing in a zone) |
+| `allow_boosts` | If the Player is allowed to boost himself                                             |
+| `max_boosts`   | The maximum boosts the Player is allowed to use                                       |
+| `delay`        | The delay that is set for the Player between boosts                                   |
 
 ## License
 This Repository is licensed under `GPL v3`

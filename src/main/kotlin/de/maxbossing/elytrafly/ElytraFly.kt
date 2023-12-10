@@ -4,6 +4,7 @@ import de.maxbossing.elytrafly.commands.ElytraFlyCommands
 import de.maxbossing.elytrafly.data.Config
 import de.maxbossing.elytrafly.data.loadConfig
 import de.maxbossing.elytrafly.metrics.Metrics
+import de.maxbossing.elytrafly.module.placeholders.PlaceholderAPIExpansionPack
 import de.maxbossing.elytrafly.module.settings.LuckpermsSettingsProvider
 import de.maxbossing.elytrafly.module.settings.SettingsProvider
 import de.maxbossing.elytrafly.module.settings.VanillaSettingsProvider
@@ -17,6 +18,7 @@ import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIBukkitConfig
 import io.github.rysefoxx.inventory.plugin.pagination.InventoryManager
 import net.kyori.adventure.text.minimessage.MiniMessage
+import org.bukkit.Bukkit
 
 class ElytraFly: MXPaper() {
     companion object {
@@ -61,6 +63,12 @@ class ElytraFly: MXPaper() {
         } else {
             VanillaSettingsProvider
         }
+
+        if (pluginManager.isPluginEnabled("PlaceholderAPI")){
+            PlaceholderAPIExpansionPack
+            debug("PlaceholderAPI Expansion registered")
+        }
+
 
         // This manages the whole elytra system
         ZoneManager; debug("ZoneManager started")

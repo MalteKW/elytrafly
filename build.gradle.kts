@@ -26,7 +26,9 @@ sourceSets {
 
 repositories {
     mavenCentral()
-    maven { url = uri("https://s01.oss.sonatype.org/content/groups/public/") }
+    maven("https://s01.oss.sonatype.org/content/groups/public/")
+
+    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/") // PlaceholderAPI
 }
 
 dependencies {
@@ -39,7 +41,8 @@ dependencies {
 
     implementation("io.github.rysefoxx.inventory", "RyseInventory-Plugin", "1.6.5")
 
-    compileOnly("net.luckperms:api:5.4") // Optional Luckperms API for metadata
+    compileOnly("net.luckperms", "api", "5.4") // Optional Luckperms API for metadata
+    compileOnly("me.clip", "placeholderapi", "2.11.5") // Optional Placeholder API for Placeholders
 }
 
 kotlin {
@@ -65,7 +68,10 @@ bukkit {
 
     main = "de.maxbossing.elytrafly.ElytraFly"
 
-    softDepend = listOf("LuckPerms")
+    softDepend = listOf(
+        "LuckPerms",
+        "PlaceholderAPI"
+    )
 
     libraries = listOf(
         "org.jetbrains.kotlin:kotlin-stdlib:1.9.20",
