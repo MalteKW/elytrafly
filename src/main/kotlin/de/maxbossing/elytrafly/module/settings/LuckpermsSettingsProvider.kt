@@ -1,7 +1,6 @@
 package de.maxbossing.elytrafly.module.settings
 
 import de.maxbossing.elytrafly.data.Permissions
-import dev.jorel.commandapi.kotlindsl.commandAPICommand
 import net.luckperms.api.LuckPermsProvider
 import org.bukkit.entity.Player
 

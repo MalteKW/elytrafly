@@ -1,3 +1,4 @@
+@file:Suppress("unused")
 package de.maxbossing.elytrafly.module.zones
 
 import de.maxbossing.elytrafly.ElytraFly

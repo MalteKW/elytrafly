@@ -7,12 +7,9 @@ import de.maxbossing.mxpaper.serialization.LocationSerializer
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import org.bukkit.Color
-import org.bukkit.FireworkEffect
-import org.bukkit.FireworkEffect.Type
 import org.bukkit.Location
 import java.io.File
 import java.lang.IllegalArgumentException
-import kotlin.io.path.Path
 
 @Serializable
 data class Config(

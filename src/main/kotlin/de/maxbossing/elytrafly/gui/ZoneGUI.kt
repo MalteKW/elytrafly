@@ -20,7 +20,6 @@ import io.github.rysefoxx.inventory.plugin.content.InventoryProvider
 import io.github.rysefoxx.inventory.plugin.pagination.Pagination
 import io.github.rysefoxx.inventory.plugin.pagination.RyseInventory
 import io.github.rysefoxx.inventory.plugin.pagination.SlotIterator
-import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import org.bukkit.Location
 import org.bukkit.Material
