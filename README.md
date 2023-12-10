@@ -23,7 +23,7 @@
 Download the Plugin, put it in `plugins/` and restart the server
 
 ## Zones
-> [!INFO]
+> [!NOTE]
 > Zone define the areas in which Players get the elytras.
 
 ### Creating Zones
@@ -45,8 +45,8 @@ Zones can be restricted to specific players/permission groups
 * Every Zone has a unique Permission attached to it specifying what players are allowed to use the zone
 * The permission is constructed from `elytrafly.zone.` and the unique name of the zone, lowercase and with whitespaces replaced with `-`
   * Example: Zone `Test Zone` has the permission `elytrafly.zone.test-zone`
-  * 
-> [!INFO]  
+  
+> [!NOTE]  
 > ElytraFly only enforces the Permissions when the `restricted` flag of the zone is set to true  
 > This can be done in the Zone GUI
 
@@ -109,7 +109,7 @@ You can use Luckperms [Meta Variables](https://luckperms.net/wiki/Prefixes,-Suff
 ### PlaceholderAPI
 ElytraFly offers an expansion for [PlaceholderAPI](https://github.com/PlaceholderAPI/PlaceholderAPI) to display additional information to Players
 
-> [!INFO]  
+> [!NOTE]  
 > You do not need to worry about enabling the Placeholders, ElytraFly will register them automatically when PlaceholderAPI is being detected on the Server
 
 | Placeholder    | Description                                                                           |
