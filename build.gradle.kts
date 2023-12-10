@@ -7,22 +7,10 @@ plugins {
     id("io.papermc.paperweight.userdev") version "1.5.9"
     id("xyz.jpenilla.run-paper") version "2.2.0"
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
-
-    id("com.modrinth.minotaur") version "2.+"
 }
 
 group = "de.maxbossing"
-version = 16
-
-val modrinthID = "elytrafly"
-
-sourceSets {
-    main {
-        resources {
-            srcDir("data")
-        }
-    }
-}
+version = 17
 
 repositories {
     mavenCentral()
