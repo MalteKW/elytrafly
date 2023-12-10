@@ -6,7 +6,6 @@ import de.maxbossing.elytrafly.data.Permissions
 import de.maxbossing.elytrafly.data.Zone
 import de.maxbossing.elytrafly.mn
 import de.maxbossing.elytrafly.module.settings.VanillaSettingsProvider
-import de.maxbossing.elytrafly.utils.debug
 import de.maxbossing.mxpaper.MXColors
 import de.maxbossing.mxpaper.extensions.bukkit.cmp
 import de.maxbossing.mxpaper.extensions.bukkit.isInArea
@@ -251,7 +250,7 @@ object ZoneManager {
                     continue
 
             if (isRestricted(zone.name) == true)
-                if (!player.hasPermission(Permissions.ZONE_BYPASS_ALL) && !player.hasPermission(Permissions.zoneBypass(zone.name)) && !player.hasPermission(Permissions.zoneRestriction(zone.name)))
+                if (!player.hasPermission(Permissions.ZONE_BYPASS)  && !player.hasPermission(Permissions.zoneRestriction(zone.name)))
                     continue
 
             if (player.isInArea(zone.loc1, zone.loc2))
@@ -328,6 +327,13 @@ object ZoneManager {
                 return true
             }
         }
+        return false
+    }
+
+    fun alreadyExists(name: String): Boolean {
+        for (zone in zones)
+            if (zone.name == name)
+                return true
         return false
     }
 
