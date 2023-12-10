@@ -9,17 +9,12 @@
 * [Zones](#zones)
   * [Creating Zones](#creating-zones)
   * [Deleting Zones](#deleting-zones)
+  * [Restricting Zones](#restricting-zones)
 * [Configuration](#configuration)
-  * [Boost](#boost)
-  * [Boost strength](#boost-strength)
-  * [Max Boosts](#max-boosts)
-  * [Boost delay](#boost-delay)
-  * [Prefix](#prefix)
-  * [Elytra Name](#elytra-name)
-* [Luckperms Integration](#luckperms)
 * [Boost Designs](#boost-designs)
   * [Colors](#colors)
 * [Permissions](#permissions)
+* [Luckperms Integration](#luckperms)
 
 ## Setup
 Download the Plugin, put it in `plugins/` and restart the server
@@ -41,9 +36,20 @@ To delete a Zone, simply right-click the Zone in the Zone GUI, opened with `/ely
 
 ![Video of a zone being deleted](https://raw.githubusercontent.com/maxbossing/ElytraFly/master/assets/zone_delete.webp)
 
+### Restricting zones
+Zones can be restricted to specific players/permission groups
+
+* Every Zone has a unique Permission attached to it specifying what players are allowed to use the zone
+* The permission is constructed from `elytrafly.zone.` and the unique name of the zone, lowercase and with whitespaces replaced with `-`
+  * Example: Zone `Test Zone` has the permission `elytrafly.zone.test-zone`
+  * 
+> [!INFO]
+> ElytraFly only enforces the Permissions when the `restricted` flag of the zone is set to true  
+> This can be done in the Zone GUI
+
 ## Configuration
 
-> [!WARNING]
+> [!WARNING]  
 > Do **not** edit the config while the server is running! 
 > The plugin will simply overwrite the config on shutdown!
 
@@ -64,15 +70,6 @@ To open the Settings, click on the Workbench in the lower left corner of the GUI
 
 ![Video showing the Name of the Elytra being changed](https://raw.githubusercontent.com/maxbossing/ElytraFly/master/assets/elytra_name_change.webp)
 
-## Luckperms
-Elytrafly offers first-class Support for Luckperms to fine-tune player-specific settings like max boosts, delays, etc...
-
-This is done using so-called [Meta Variables](https://luckperms.net/wiki/Prefixes,-Suffixes-&-Meta). refer to the [wiki](https://luckperms.net/wiki/Prefixes,-Suffixes-&-Meta) for a guide how to use them
-
-| Variable name           | Description                                               |
-|-------------------------|-----------------------------------------------------------|
-| `elytrafly.max-boosts`  | How many boosts a Player/Group can use per Flight         |
-| `elytrafly.boost.delay` | How long the delay between boosts is for the Player/Group |
 
 ## Boost Designs
 ElytraFly offers an extensive Design builder to customize the boosts to your liking. The Builder offers functionality to change colors, add fades, flickers and trails to your boosts.
@@ -85,12 +82,25 @@ You can easily define the colors of your elytra just by clicking items!
 ![Video showing how easily colors are changed](https://raw.githubusercontent.com/maxbossing/ElytraFly/master/assets/color_builder.webp)
 
 ## Permissions
-| Permission               | Description                                                                 |
-|--------------------------|-----------------------------------------------------------------------------|
-| `elytrafly.gui`          | Allows to access the GUI and other admin functionality                      |
-| `elytrafly.boost`        | Allows Players to boost themselver in mid-air using their off-hand swap key |
-| `elytrafly.boost.bypass` | Allows Players to bypass the boost limit                                    |
-| `elytrafly.delay.bypass` | Allows Players to bypass the delay for boosts                               |
+| Permission                  | Description                                                                                                               |
+|-----------------------------|---------------------------------------------------------------------------------------------------------------------------|
+| `elytrafly.gui`             | Allows to access the GUI and other admin functionality                                                                    |
+| `elytrafly.boost`           | Allows Players to boost themselves in mid-air using their off-hand swap key                                               |
+| `elytrafly.boost.bypass`    | Allows Players to bypass the boost limit                                                                                  |
+| `elytrafly.delay.bypass`    | Allows Players to bypass the delay for boosts                                                                             |
+| `elytrafly.zone.bypass`     | Allows Players to use **all** zones, even if they are restricted                                                          |
+| `elytrafly.zone.ZONE_NAME`  | Allows players to use a zone if it's restricted (The zones name is fully lowercase and Whitespaces are translated to `-`) |
+
+## Luckperms
+Elytrafly offers first-class Support for Luckperms to fine-tune player-specific settings like max boosts, delays, etc...
+
+This is done using so-called [Meta Variables](https://luckperms.net/wiki/Prefixes,-Suffixes-&-Meta). refer to the [wiki](https://luckperms.net/wiki/Prefixes,-Suffixes-&-Meta) for a guide how to use them
+
+| Variable name           | Description                                               |
+|-------------------------|-----------------------------------------------------------|
+| `elytrafly.max-boosts`  | How many boosts a Player/Group can use per Flight         |
+| `elytrafly.boost-delay` | How long the delay between boosts is for the Player/Group |
+
 
 ## License
 This Repository is licensed under `GPL v3`
