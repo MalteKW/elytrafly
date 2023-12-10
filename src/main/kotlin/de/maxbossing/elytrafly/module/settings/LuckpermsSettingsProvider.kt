@@ -13,7 +13,7 @@ object LuckpermsSettingsProvider: SettingsProvider {
 
 
     override fun boostDelay(player: Player): Int {
-        if (player.hasPermission(Permissions.BOOST_MAX_BYPASS))return -1
+        if (player.hasPermission(Permissions.BOOST_MAX_BYPASS)) return -1
 
         val metavalue = API.getPlayerAdapter(Player::class.java).getMetaData(player).getMetaValue("elytrafly.boost-delay")
 
@@ -24,7 +24,7 @@ object LuckpermsSettingsProvider: SettingsProvider {
     }
 
     override fun maxBoosts(player: Player): Int {
-        if (player.hasPermission(Permissions.BOOST_MAX_BYPASS))return -1
+        if (player.hasPermission(Permissions.BOOST_MAX_BYPASS)) return -1
 
         val metavalue = API.getPlayerAdapter(Player::class.java).getMetaData(player).getMetaValue("elytrafly.max-boosts")
 
