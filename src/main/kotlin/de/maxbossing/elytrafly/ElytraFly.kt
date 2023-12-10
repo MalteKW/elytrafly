@@ -18,14 +18,15 @@ import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIBukkitConfig
 import io.github.rysefoxx.inventory.plugin.pagination.InventoryManager
 import net.kyori.adventure.text.minimessage.MiniMessage
-import org.bukkit.Bukkit
 
-class ElytraFly: MXPaper() {
+class ElytraFly : MXPaper() {
     companion object {
         // Instance
         lateinit var elytrafly: ElytraFly
+
         // Config
         lateinit var config: Config
+
         // SettingsProvider
         lateinit var settingsProvider: SettingsProvider
     }
@@ -49,7 +50,7 @@ class ElytraFly: MXPaper() {
         ElytraFly.config = loadConfig(); debug("Loaded config")
 
         // Set prefix
-        prefix  = mn.deserialize(ElytraFly.config.prefix); debug("Deserialized Prefix")
+        prefix = mn.deserialize(ElytraFly.config.prefix); debug("Deserialized Prefix")
 
         // Commands
         CommandAPI.onEnable(); debug("CommandAPI Enabled")
@@ -64,7 +65,7 @@ class ElytraFly: MXPaper() {
             VanillaSettingsProvider
         }
 
-        if (pluginManager.isPluginEnabled("PlaceholderAPI")){
+        if (pluginManager.isPluginEnabled("PlaceholderAPI")) {
             PlaceholderAPIExpansionPack
             debug("PlaceholderAPI Expansion registered")
         }

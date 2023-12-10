@@ -24,7 +24,7 @@ dependencies {
 
     implementation("de.maxbossing", "mxpaper", "2.0.0")
 
-    compileOnly("dev.jorel","commandapi-bukkit-core", "9.2.0")
+    compileOnly("dev.jorel", "commandapi-bukkit-core", "9.2.0")
     compileOnly("dev.jorel", "commandapi-bukkit-kotlin", "9.2.0")
 
     implementation("io.github.rysefoxx.inventory", "RyseInventory-Plugin", "1.6.5")

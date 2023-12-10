@@ -2,8 +2,8 @@ package de.maxbossing.elytrafly.gui.design
 
 import de.maxbossing.elytrafly.ElytraFly
 import de.maxbossing.elytrafly.cAccent
-import de.maxbossing.elytrafly.elytrafly
 import de.maxbossing.elytrafly.cBase
+import de.maxbossing.elytrafly.elytrafly
 import de.maxbossing.elytrafly.gui.SettingsGUI
 import de.maxbossing.elytrafly.module.zones.ZoneManager
 import de.maxbossing.elytrafly.utils.skullTexture
@@ -40,8 +40,16 @@ class BoostDesign(val player: Player) {
                 meta {
                     displayName(cmp("Flicker", cBase))
                     setLore {
-                        lorelist += if (flicker) cmp("> Active", cAccent, underlined = true) else cmp("Active", cBase, underlined = false)
-                        lorelist += if (!flicker) cmp("> Not Active", cAccent, underlined = true) else cmp("Not Active", cBase, underlined = false)
+                        lorelist += if (flicker) cmp("> Active", cAccent, underlined = true) else cmp(
+                            "Active",
+                            cBase,
+                            underlined = false
+                        )
+                        lorelist += if (!flicker) cmp("> Not Active", cAccent, underlined = true) else cmp(
+                            "Not Active",
+                            cBase,
+                            underlined = false
+                        )
                     }
                 }
             }
@@ -50,8 +58,16 @@ class BoostDesign(val player: Player) {
 
             it.currentItem!!.meta {
                 setLore {
-                    lorelist += if (flicker) cmp("> Active", cAccent, underlined = true) else cmp("Active", cBase, underlined = false)
-                    lorelist += if (!flicker) cmp("> Not Active", cAccent, underlined = true) else cmp("Not Active", cBase, underlined = false)
+                    lorelist += if (flicker) cmp("> Active", cAccent, underlined = true) else cmp(
+                        "Active",
+                        cBase,
+                        underlined = false
+                    )
+                    lorelist += if (!flicker) cmp("> Not Active", cAccent, underlined = true) else cmp(
+                        "Not Active",
+                        cBase,
+                        underlined = false
+                    )
                 }
             }
         }
@@ -63,8 +79,16 @@ class BoostDesign(val player: Player) {
                 meta {
                     displayName(cmp("Trail", cBase))
                     setLore {
-                        lorelist += if (trail) cmp("> Active", cAccent, underlined = true) else cmp("Active", cBase, underlined = false)
-                        lorelist += if (!trail) cmp("> Not Active", cAccent, underlined = true) else cmp("Not Active", cBase, underlined = false)
+                        lorelist += if (trail) cmp("> Active", cAccent, underlined = true) else cmp(
+                            "Active",
+                            cBase,
+                            underlined = false
+                        )
+                        lorelist += if (!trail) cmp("> Not Active", cAccent, underlined = true) else cmp(
+                            "Not Active",
+                            cBase,
+                            underlined = false
+                        )
                     }
                 }
             }
@@ -73,8 +97,16 @@ class BoostDesign(val player: Player) {
 
             it.currentItem!!.meta {
                 setLore {
-                    lorelist += if (trail) cmp("> Active", cAccent, underlined = true) else cmp("Active", cBase, underlined = false)
-                    lorelist += if (!trail) cmp("> Not Active", cAccent, underlined = true) else cmp("Not Active", cBase, underlined = false)
+                    lorelist += if (trail) cmp("> Active", cAccent, underlined = true) else cmp(
+                        "Active",
+                        cBase,
+                        underlined = false
+                    )
+                    lorelist += if (!trail) cmp("> Not Active", cAccent, underlined = true) else cmp(
+                        "Not Active",
+                        cBase,
+                        underlined = false
+                    )
                 }
             }
         }
@@ -191,7 +223,6 @@ class BoostDesign(val player: Player) {
         })
 
 
-
         .build(elytrafly)
 
 
@@ -204,14 +235,14 @@ class BoostDesign(val player: Player) {
         val configfades = ElytraFly.config.elytraConfig.boostConfig.boostDesign.fades.map { Color.fromRGB(it) }
 
         colors = if (configcolors.size < 3) {
-            val needed = List<Color>(3 -configcolors.size){Color.WHITE}
+            val needed = List<Color>(3 - configcolors.size) { Color.WHITE }
             (configcolors + needed).toMutableList()
         } else {
             configcolors.take(3).toMutableList()
         }
 
         fades = if (configfades.size < 3) {
-            val needed = List<Color>(3 -configfades.size){Color.WHITE}
+            val needed = List<Color>(3 - configfades.size) { Color.WHITE }
             (configfades + needed).toMutableList()
         } else {
             configfades.take(3).toMutableList()

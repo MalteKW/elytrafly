@@ -1,7 +1,10 @@
 package de.maxbossing.elytrafly.gui
 
-import de.maxbossing.elytrafly.*
+import de.maxbossing.elytrafly.ElytraFly
+import de.maxbossing.elytrafly.cAccent
+import de.maxbossing.elytrafly.cBase
 import de.maxbossing.elytrafly.data.Zone
+import de.maxbossing.elytrafly.elytrafly
 import de.maxbossing.elytrafly.module.zones.ZoneManager
 import de.maxbossing.elytrafly.utils.skullTexture
 import de.maxbossing.mxpaper.MXColors
@@ -12,7 +15,10 @@ import de.maxbossing.mxpaper.event.listen
 import de.maxbossing.mxpaper.event.unregister
 import de.maxbossing.mxpaper.extensions.bukkit.cmp
 import de.maxbossing.mxpaper.extensions.bukkit.plus
-import de.maxbossing.mxpaper.items.*
+import de.maxbossing.mxpaper.items.flags
+import de.maxbossing.mxpaper.items.itemStack
+import de.maxbossing.mxpaper.items.meta
+import de.maxbossing.mxpaper.items.setLore
 import de.maxbossing.mxpaper.main.prefix
 import io.github.rysefoxx.inventory.plugin.content.IntelligentItem
 import io.github.rysefoxx.inventory.plugin.content.InventoryContents
@@ -39,7 +45,9 @@ class ZoneGUI(val player: Player) {
 
 
     fun zoneButton(zone: Zone): IntelligentItem {
-        fun pseudoRandomMaterial(zone: Zone) = Material.entries.filter { it.name.endsWith("ARMOR_TRIM_SMITHING_TEMPLATE") }.random(Random(zone.name.hashCode()))
+        fun pseudoRandomMaterial(zone: Zone) =
+            Material.entries.filter { it.name.endsWith("ARMOR_TRIM_SMITHING_TEMPLATE") }
+                .random(Random(zone.name.hashCode()))
 
         fun xyzString(location: Location): String = "${location.x} ${location.y} ${location.z}"
 
@@ -49,8 +57,17 @@ class ZoneGUI(val player: Player) {
                     displayName(cmp(zone.name, cAccent))
                     flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS)
                     setLore {
-                        lorelist += cmp("Active: ", cBase) + if (ZoneManager.isActive(zone.name) == true) cmp("yes", MXColors.GREEN) else cmp("no", MXColors.RED)
-                        lorelist += cmp("Restricted: ", cBase) + if (ZoneManager.isRestricted(zone.name) == true) cmp("yes", MXColors.GREEN) else cmp("no", MXColors.RED)
+                        lorelist += cmp("Active: ", cBase) + if (ZoneManager.isActive(zone.name) == true) cmp(
+                            "yes",
+                            MXColors.GREEN
+                        ) else cmp("no", MXColors.RED)
+                        lorelist += cmp(
+                            "Restricted: ",
+                            cBase
+                        ) + if (ZoneManager.isRestricted(zone.name) == true) cmp("yes", MXColors.GREEN) else cmp(
+                            "no",
+                            MXColors.RED
+                        )
                         lorelist += cmp("")
                         lorelist += cmp("World: ", cBase) + cmp(zone.loc1.world.name, cAccent)
                         lorelist += cmp("loc 1: ", cBase) + cmp(xyzString(zone.loc1), cAccent)
@@ -58,7 +75,11 @@ class ZoneGUI(val player: Player) {
                         lorelist += cmp("")
                         lorelist += cmp("Left-Click  ∙  ", cBase) + cmp("Toggle Activation", cAccent)
                         lorelist += cmp("Shift-Left-Click  ∙  ", cBase) + cmp("Toggle Restriction", cAccent)
-                        lorelist += cmp("Right-Click  ∙  ", cBase) + cmp("Delete", bold = true, color = MXColors.INDIANRED)
+                        lorelist += cmp("Right-Click  ∙  ", cBase) + cmp(
+                            "Delete",
+                            bold = true,
+                            color = MXColors.INDIANRED
+                        )
                     }
                 }
             }
@@ -76,7 +97,7 @@ class ZoneGUI(val player: Player) {
                 } else {
                     if (ZoneManager.isActive(zone.name) == true) {
                         ZoneManager.deactivateZone(zone.name)
-                    } else if (ZoneManager.isActive(zone.name) == false){
+                    } else if (ZoneManager.isActive(zone.name) == false) {
                         ZoneManager.activateZone(zone.name)
                     }
                 }
@@ -84,8 +105,14 @@ class ZoneGUI(val player: Player) {
 
             it.currentItem!!.meta {
                 setLore {
-                    lorelist += cmp("Active: ", cBase) + if (ZoneManager.isActive(zone.name) == true) cmp("yes", MXColors.GREEN) else cmp("no", MXColors.RED)
-                    lorelist += cmp("Restricted: ", cBase) + if (ZoneManager.isRestricted(zone.name) == true) cmp("yes", MXColors.GREEN) else cmp("no", MXColors.RED)
+                    lorelist += cmp("Active: ", cBase) + if (ZoneManager.isActive(zone.name) == true) cmp(
+                        "yes",
+                        MXColors.GREEN
+                    ) else cmp("no", MXColors.RED)
+                    lorelist += cmp("Restricted: ", cBase) + if (ZoneManager.isRestricted(zone.name) == true) cmp(
+                        "yes",
+                        MXColors.GREEN
+                    ) else cmp("no", MXColors.RED)
                     lorelist += cmp("")
                     lorelist += cmp("World: ", cBase) + cmp(zone.loc1.world.name, cAccent)
                     lorelist += cmp("loc 1: ", cBase) + cmp(xyzString(zone.loc1), cAccent)
@@ -102,7 +129,7 @@ class ZoneGUI(val player: Player) {
     fun createButton(): IntelligentItem {
 
         fun awaitBlockInput(callback: (Location) -> Unit) {
-            var listener: SingleListener<PlayerInteractEvent>?= null
+            var listener: SingleListener<PlayerInteractEvent>? = null
 
             fun receive(loc: Location) {
                 listener!!.unregister()
@@ -136,7 +163,7 @@ class ZoneGUI(val player: Player) {
 
             player.awaitChatInput(
                 question = prefix + cmp("Input the name of the Zone...", cBase),
-            ){ it1 ->
+            ) { it1 ->
                 if (it1.input == null) {
                     player.sendMessage(prefix + cmp("No name specified!", MXColors.RED))
                     ZoneGUI(player)
@@ -144,10 +171,19 @@ class ZoneGUI(val player: Player) {
                     val name = PlainTextComponentSerializer.plainText().serialize(it1.input!!)
                     if (ZoneManager.alreadyExists(name)) {
                         player.sendMessage(prefix + cmp("There is already a zone with the given name!", MXColors.RED))
-                    }else {
+                    } else {
                         awaitBlockInput { it2 ->
                             awaitBlockInput { it3 ->
-                                if (ZoneManager.addZone(Zone(PlainTextComponentSerializer.plainText().serialize(it1.input!!), true, false,  it2, it3)))
+                                if (ZoneManager.addZone(
+                                        Zone(
+                                            PlainTextComponentSerializer.plainText().serialize(it1.input!!),
+                                            true,
+                                            false,
+                                            it2,
+                                            it3
+                                        )
+                                    )
+                                )
                                     player.sendMessage(prefix + cmp("Zone added!", cBase))
                                 else
                                     player.sendMessage(prefix + cmp("Zone already exists!", MXColors.RED))
@@ -184,17 +220,25 @@ class ZoneGUI(val player: Player) {
 
                 pagination.iterator(
                     SlotIterator.builder()
-                    .startPosition(1, 1)
-                    .endPosition(2, 7)
-                    .type(SlotIterator.SlotIteratorType.HORIZONTAL)
-                    .build())
+                        .startPosition(1, 1)
+                        .endPosition(2, 7)
+                        .type(SlotIterator.SlotIteratorType.HORIZONTAL)
+                        .build()
+                )
 
 
                 val headLeft = itemStack(Material.PLAYER_HEAD) {
-                    amount = if (pagination.isFirst) 1 else pagination.page() -1
+                    amount = if (pagination.isFirst) 1 else pagination.page() - 1
                     meta<SkullMeta> {
                         skullTexture(MXHeads.ARROW_LEFT_WHITE)
-                        displayName(if (pagination.isFirst) cmp("«", strikethrough = true, bold = true, color = cBase) else cmp("«", strikethrough = false, bold = true, color = cBase))
+                        displayName(
+                            if (pagination.isFirst) cmp(
+                                "«",
+                                strikethrough = true,
+                                bold = true,
+                                color = cBase
+                            ) else cmp("«", strikethrough = false, bold = true, color = cBase)
+                        )
 
                     }
                 }
@@ -209,7 +253,14 @@ class ZoneGUI(val player: Player) {
                     amount = if (pagination.isLast) 1 else pagination.page()
                     meta<SkullMeta> {
                         skullTexture(MXHeads.ARROW_RIGHT_WHITE)
-                        displayName(if (pagination.isLast) cmp("»", strikethrough = true, bold = true, color = cBase) else cmp("»", strikethrough = false, bold = true, color = cBase))
+                        displayName(
+                            if (pagination.isLast) cmp(
+                                "»",
+                                strikethrough = true,
+                                bold = true,
+                                color = cBase
+                            ) else cmp("»", strikethrough = false, bold = true, color = cBase)
+                        )
                     }
 
                 }

@@ -18,11 +18,15 @@ import io.github.rysefoxx.inventory.plugin.pagination.RyseInventory
 import org.bukkit.Color
 import org.bukkit.Material
 import org.bukkit.entity.Player
-import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.meta.LeatherArmorMeta
 
-class ColorInput(val player: Player, val inv: RyseInventory, var currentColor: Color = Color.WHITE, val callback: (Color) -> Unit) {
+class ColorInput(
+    val player: Player,
+    val inv: RyseInventory,
+    var currentColor: Color = Color.WHITE,
+    val callback: (Color) -> Unit
+) {
 
 
     fun chestplate(): IntelligentItem {
@@ -54,17 +58,39 @@ class ColorInput(val player: Player, val inv: RyseInventory, var currentColor: C
 
                 val slots = listOf(10, 11, 12, 14, 15, 16)
 
-                for (i in slots){
+                for (i in slots) {
                     it.inventory.getItem(i)!!.meta {
                         when (i) {
-                            10,11 -> displayName(cmp("${RGBColor.RED.name.fancy} : ", cBase) + cmp(currentColor.red.toString(), cAccent))
-                            12,14 -> displayName(cmp("${RGBColor.GREEN.name.fancy} : ", cBase) + cmp(currentColor.green.toString(), cAccent))
-                            15,16 -> displayName(cmp("${RGBColor.BLUE.name.fancy} : ", cBase) + cmp(currentColor.blue.toString(), cAccent))
+                            10, 11 -> displayName(
+                                cmp(
+                                    "${RGBColor.RED.name.fancy} : ",
+                                    cBase
+                                ) + cmp(currentColor.red.toString(), cAccent)
+                            )
+
+                            12, 14 -> displayName(
+                                cmp(
+                                    "${RGBColor.GREEN.name.fancy} : ",
+                                    cBase
+                                ) + cmp(currentColor.green.toString(), cAccent)
+                            )
+
+                            15, 16 -> displayName(
+                                cmp(
+                                    "${RGBColor.BLUE.name.fancy} : ",
+                                    cBase
+                                ) + cmp(currentColor.blue.toString(), cAccent)
+                            )
                         }
                         setLore {
                             lorelist += (cmp("Right-Click • ", cBase) + cmp(" +1"))
                             lorelist += (cmp("Shift-Right-Click • ", cBase) + cmp("+10"))
-                            lorelist += (cmp("                                  ", underlined = true, color = cBase, bold = true))
+                            lorelist += (cmp(
+                                "                                  ",
+                                underlined = true,
+                                color = cBase,
+                                bold = true
+                            ))
                             lorelist += cmp("")
                             lorelist += (cmp("Left-Click • ", cBase) + cmp(" -1"))
                             lorelist += (cmp("Shift-Left-Click • ", cBase) + cmp("-10"))
@@ -79,6 +105,7 @@ class ColorInput(val player: Player, val inv: RyseInventory, var currentColor: C
 
         }
     }
+
     enum class RGBColor(val material: Material) {
         RED(Material.RED_CONCRETE),
         GREEN(Material.LIME_CONCRETE),
@@ -89,12 +116,25 @@ class ColorInput(val player: Player, val inv: RyseInventory, var currentColor: C
         return IntelligentItem.of(
             itemStack(color.material) {
                 meta {
-                    displayName(cmp("${color.name.fancy} : ", cAccent) + cmp( (if (color == RGBColor.BLUE) currentColor.blue else if (color == RGBColor.GREEN) currentColor.green else currentColor.red).toString(), cAccent))
+                    displayName(
+                        cmp(
+                            "${color.name.fancy} : ",
+                            cAccent
+                        ) + cmp(
+                            (if (color == RGBColor.BLUE) currentColor.blue else if (color == RGBColor.GREEN) currentColor.green else currentColor.red).toString(),
+                            cAccent
+                        )
+                    )
 
                     setLore {
                         lorelist += (cmp("Right-Click • ", cBase) + cmp(" +1"))
                         lorelist += (cmp("Shift-Right-Click • ", cBase) + cmp("+10"))
-                        lorelist += (cmp("                                  ", underlined = true, color = cBase, bold = true))
+                        lorelist += (cmp(
+                            "                                  ",
+                            underlined = true,
+                            color = cBase,
+                            bold = true
+                        ))
                         lorelist += cmp("")
                         lorelist += (cmp("Left-Click • ", cBase) + cmp(" -1"))
                         lorelist += (cmp("Shift-Left-Click • ", cBase) + cmp("-10"))
@@ -107,28 +147,30 @@ class ColorInput(val player: Player, val inv: RyseInventory, var currentColor: C
                     if (it.isShiftClick)
                         -10
                     else
-                    -1
+                        -1
                 } else {
                     if (it.isShiftClick)
                         10
                     else
-                     1
+                        1
                 }
             }
 
             when (color) {
-                RGBColor.BLUE ->  {
-                    if (currentColor.blue + much() > 255 || currentColor.blue + much() < 0)return@of
+                RGBColor.BLUE -> {
+                    if (currentColor.blue + much() > 255 || currentColor.blue + much() < 0) return@of
                     currentColor = currentColor.setBlue(currentColor.blue + much())
 
                 }
+
                 RGBColor.RED -> {
-                    if (currentColor.red + much() > 255 || currentColor.red + much() < 0)return@of
+                    if (currentColor.red + much() > 255 || currentColor.red + much() < 0) return@of
                     currentColor = currentColor.setRed(currentColor.red + much())
 
                 }
+
                 RGBColor.GREEN -> {
-                    if (currentColor.green + much() > 255 || currentColor.green + much() < 0)return@of
+                    if (currentColor.green + much() > 255 || currentColor.green + much() < 0) return@of
                     currentColor = currentColor.setGreen(currentColor.green + much())
                 }
             }
@@ -138,16 +180,24 @@ class ColorInput(val player: Player, val inv: RyseInventory, var currentColor: C
                 setColor(currentColor)
             }
 
-            val slots = when(color) {
+            val slots = when (color) {
                 RGBColor.RED -> listOf(10, 11)
                 RGBColor.GREEN -> listOf(12, 14)
                 RGBColor.BLUE -> listOf(15, 16)
 
             }
 
-            for (i in slots){
+            for (i in slots) {
                 it.inventory.getItem(i)!!.meta {
-                    displayName(cmp("${color.name.fancy} : ", cBase) + cmp( (if (color == RGBColor.BLUE) currentColor.blue else if (color == RGBColor.GREEN) currentColor.green else currentColor.red).toString(), cAccent))
+                    displayName(
+                        cmp(
+                            "${color.name.fancy} : ",
+                            cBase
+                        ) + cmp(
+                            (if (color == RGBColor.BLUE) currentColor.blue else if (color == RGBColor.GREEN) currentColor.green else currentColor.red).toString(),
+                            cAccent
+                        )
+                    )
                 }
             }
         }

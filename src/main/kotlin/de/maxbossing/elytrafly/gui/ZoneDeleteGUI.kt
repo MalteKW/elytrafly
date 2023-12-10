@@ -1,7 +1,9 @@
 package de.maxbossing.elytrafly.gui
 
-import de.maxbossing.elytrafly.*
+import de.maxbossing.elytrafly.cAccent
+import de.maxbossing.elytrafly.cBase
 import de.maxbossing.elytrafly.data.Zone
+import de.maxbossing.elytrafly.elytrafly
 import de.maxbossing.elytrafly.module.zones.ZoneManager
 import de.maxbossing.elytrafly.utils.skullTexture
 import de.maxbossing.mxpaper.MXColors
@@ -24,16 +26,11 @@ import org.bukkit.inventory.meta.SkullMeta
 import kotlin.random.Random
 
 class ZoneDeleteGUI(val player: Player, val zone: Zone) {
-    var zones: List<Zone>
-        get() = ElytraFly.config.zones
-        set(value) {
-            ElytraFly.config.zones = value
-        }
-
-
 
     fun infoItem(): IntelligentItem {
-        fun pseudoRandomMaterial(zone: Zone) = Material.entries.filter { it.name.endsWith("ARMOR_TRIM_SMITHING_TEMPLATE") }.random(Random(zone.hashCode()))
+        fun pseudoRandomMaterial(zone: Zone) =
+            Material.entries.filter { it.name.endsWith("ARMOR_TRIM_SMITHING_TEMPLATE") }.random(Random(zone.hashCode()))
+
         fun xyzString(location: Location): String = "${location.x} ${location.y} ${location.z}"
 
         return IntelligentItem.of(

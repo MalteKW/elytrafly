@@ -1,4 +1,5 @@
 @file:Suppress("unused")
+
 package de.maxbossing.elytrafly.module.zones
 
 import de.maxbossing.elytrafly.ElytraFly
@@ -30,37 +31,27 @@ object ZoneManager {
     private val config = ElytraFly.config
 
 
-    /**
-     * Saved chestplates for players that are flying
-     */
+    /** Saved chestplates for players that are flying */
     var chestPlates = mutableMapOf<Player, ItemStack?>()
 
-    /**
-     * The Boosts that A Player has used in his flight
-     */
+    /** The Boosts that A Player has used in his flight */
     var usedBoosts = mutableMapOf<Player, Int>()
 
-    /**
-     * The [Zone] List
-     */
+    /** The [Zone] List */
     var zones: List<Zone>
         get() = ElytraFly.config.zones
-        set(value) { ElytraFly.config.zones = value }
+        set(value) {
+            ElytraFly.config.zones = value
+        }
 
-    /**
-     * The elytra that is used
-     */
+    /** The elytra that is used */
     var elytra: ItemStack
 
-    /**
-     * The boost firework used for boosting players
-     */
+    /** The boost firework used for boosting players */
     lateinit var boostFirework: ItemStack
         private set
 
-    /**
-     * Players that are currently delayed from using boosts
-     */
+    /** Players that are currently delayed from using boosts */
     var boostDelays = mutableListOf<Player>()
 
     init {
@@ -77,7 +68,7 @@ object ZoneManager {
      * @param player The Player to give the elytra to
      */
     fun giveElytra(player: Player) {
-        if (player.inventory.chestplate == elytra)return
+        if (player.inventory.chestplate == elytra) return
 
         chestPlates[player] = player.inventory.chestplate // save chestplate
 
@@ -101,7 +92,7 @@ object ZoneManager {
      * @param player The Player to remove the Elytra from
      */
     fun removeElytra(player: Player) {
-        if (player.inventory.chestplate != elytra)return
+        if (player.inventory.chestplate != elytra) return
 
         player.inventory.chestplate = chestPlates[player]
 
@@ -111,9 +102,7 @@ object ZoneManager {
 
     }
 
-    /**
-     * Sets the [boostFirework] according to configuration
-     */
+    /** Sets the [boostFirework] according to configuration */
     fun rebuildBoostFirework() {
         val bc = config.elytraConfig.boostConfig
         boostFirework = itemStack(Material.FIREWORK_ROCKET) {
@@ -175,6 +164,7 @@ object ZoneManager {
 
     /**
      * Build the Elytra for One-time-use according to configuration
+     *
      * @return The Elytra
      */
     fun buildElytra(): ItemStack {
@@ -211,6 +201,7 @@ object ZoneManager {
 
     /**
      * Adds a [Zone] to the Zone List
+     *
      * @param name The [Zone] Name
      * @param loc1 The first corner of the [Zone]
      * @param loc2 The opposite corner of the [Zone]
@@ -220,6 +211,7 @@ object ZoneManager {
 
     /**
      * Adds a [Zone] to the Zone List
+     *
      * @param zone The [Zone] to add
      * @return false if zone already exists
      */
@@ -232,6 +224,7 @@ object ZoneManager {
 
     /**
      * Deletes a [Zone] from the Zone List
+     *
      * @param name the Name of the zon to be deleted
      * @return false if the zone was not found
      */
@@ -248,10 +241,15 @@ object ZoneManager {
     fun isInZone(player: Player): Zone? {
         for (zone in zones) {
             if (isActive(zone.name) == false)
-                    continue
+                continue
 
             if (isRestricted(zone.name) == true)
-                if (!player.hasPermission(Permissions.ZONE_BYPASS)  && !player.hasPermission(Permissions.zoneRestriction(zone.name)))
+                if (!player.hasPermission(Permissions.ZONE_BYPASS) && !player.hasPermission(
+                        Permissions.zoneRestriction(
+                            zone.name
+                        )
+                    )
+                )
                     continue
 
             if (player.isInArea(zone.loc1, zone.loc2))

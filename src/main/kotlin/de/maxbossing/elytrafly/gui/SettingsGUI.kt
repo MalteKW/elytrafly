@@ -9,10 +9,8 @@ import de.maxbossing.elytrafly.utils.skullTexture
 import de.maxbossing.mxpaper.MXHeads
 import de.maxbossing.mxpaper.chat.input.awaitChatInput
 import de.maxbossing.mxpaper.extensions.bukkit.cmp
-import de.maxbossing.mxpaper.extensions.bukkit.lore
 import de.maxbossing.mxpaper.extensions.bukkit.plus
 import de.maxbossing.mxpaper.extensions.deserialized
-import de.maxbossing.mxpaper.items.itemMeta
 import de.maxbossing.mxpaper.items.itemStack
 import de.maxbossing.mxpaper.items.meta
 import de.maxbossing.mxpaper.items.setLore
@@ -24,7 +22,6 @@ import io.github.rysefoxx.inventory.plugin.pagination.RyseInventory
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import org.bukkit.Material
 import org.bukkit.entity.Player
-import org.bukkit.inventory.meta.FireworkMeta
 import org.bukkit.inventory.meta.SkullMeta
 
 class SettingsGUI(val player: Player) {
@@ -48,14 +45,23 @@ class SettingsGUI(val player: Player) {
             ZoneGUI(player)
         }
     }
+
     fun boostItem(): IntelligentItem {
         return IntelligentItem.of(
             itemStack(Material.FIREWORK_ROCKET) {
                 meta {
                     displayName(cmp("Boost"))
                     setLore {
-                        lorelist += if (config.elytraConfig.boostConfig.boost) cmp("Active", cAccent, underlined = true) else cmp("Active", cBase)
-                        lorelist += if (!config.elytraConfig.boostConfig.boost) cmp("Not Active", cAccent, underlined = true) else cmp("Not Active", cBase)
+                        lorelist += if (config.elytraConfig.boostConfig.boost) cmp(
+                            "Active",
+                            cAccent,
+                            underlined = true
+                        ) else cmp("Active", cBase)
+                        lorelist += if (!config.elytraConfig.boostConfig.boost) cmp(
+                            "Not Active",
+                            cAccent,
+                            underlined = true
+                        ) else cmp("Not Active", cBase)
                     }
                 }
             }
@@ -64,8 +70,16 @@ class SettingsGUI(val player: Player) {
             config.elytraConfig.boostConfig.boost = !config.elytraConfig.boostConfig.boost
             it.currentItem!!.meta {
                 setLore {
-                    lorelist += if (config.elytraConfig.boostConfig.boost) cmp("Active", cAccent, underlined = true) else cmp("Active", cBase)
-                    lorelist += if (!config.elytraConfig.boostConfig.boost) cmp("Not Active", cAccent, underlined = true) else cmp("Not Active", cBase)
+                    lorelist += if (config.elytraConfig.boostConfig.boost) cmp(
+                        "Active",
+                        cAccent,
+                        underlined = true
+                    ) else cmp("Active", cBase)
+                    lorelist += if (!config.elytraConfig.boostConfig.boost) cmp(
+                        "Not Active",
+                        cAccent,
+                        underlined = true
+                    ) else cmp("Not Active", cBase)
                 }
             }
         }
@@ -77,7 +91,10 @@ class SettingsGUI(val player: Player) {
                 meta {
                     displayName(cmp("Boost Strength"))
                     setLore {
-                        lorelist += cmp("Current: ", cBase) + cmp(config.elytraConfig.boostConfig.boostStrength.toString(), cAccent)
+                        lorelist += cmp(
+                            "Current: ",
+                            cBase
+                        ) + cmp(config.elytraConfig.boostConfig.boostStrength.toString(), cAccent)
                         lorelist += cmp(" ")
                         lorelist += cmp("Right-Click • ", cBase) + cmp(" +1", cAccent)
                         lorelist += cmp("Left-Click • ", cBase) + cmp("-1", cAccent)
@@ -86,13 +103,17 @@ class SettingsGUI(val player: Player) {
             }
         ) {
             if (it.isLeftClick) {
-                if (config.elytraConfig.boostConfig.boostStrength <= 1)return@of
+                if (config.elytraConfig.boostConfig.boostStrength <= 1) return@of
                 config.elytraConfig.boostConfig.boostStrength -= 1
             } else {
                 config.elytraConfig.boostConfig.boostStrength += 1
             }
-            it.currentItem!!.meta {setLore {
-                    lorelist += cmp("Current: ", cBase) + cmp(config.elytraConfig.boostConfig.boostStrength.toString(), cAccent)
+            it.currentItem!!.meta {
+                setLore {
+                    lorelist += cmp("Current: ", cBase) + cmp(
+                        config.elytraConfig.boostConfig.boostStrength.toString(),
+                        cAccent
+                    )
                     lorelist += cmp(" ")
                     lorelist += cmp("Right-Click • ", cBase) + cmp(" +1", cAccent)
                     lorelist += cmp("Left-Click • ", cBase) + cmp("-1", cAccent)
@@ -107,7 +128,10 @@ class SettingsGUI(val player: Player) {
                 meta {
                     displayName(cmp("Boost Delay"))
                     setLore {
-                        lorelist += cmp("Current: ", cBase) + cmp(config.elytraConfig.boostConfig.boostDelay.toString(), cAccent)
+                        lorelist += cmp("Current: ", cBase) + cmp(
+                            config.elytraConfig.boostConfig.boostDelay.toString(),
+                            cAccent
+                        )
                         lorelist += cmp(" ")
                         lorelist += cmp("Right-Click • ", cBase) + cmp(" +1", cAccent)
                         lorelist += cmp("Left-Click • ", cBase) + cmp("-1", cAccent)
@@ -116,14 +140,17 @@ class SettingsGUI(val player: Player) {
             }
         ) {
             if (it.isLeftClick) {
-                if (config.elytraConfig.boostConfig.boostDelay <= 0)return@of
+                if (config.elytraConfig.boostConfig.boostDelay <= 0) return@of
                 config.elytraConfig.boostConfig.boostDelay -= 1
             } else {
                 config.elytraConfig.boostConfig.boostDelay += 1
             }
             it.currentItem!!.meta {
                 setLore {
-                    lorelist += cmp("Current: ", cBase) + cmp(config.elytraConfig.boostConfig.boostDelay.toString(), cAccent)
+                    lorelist += cmp("Current: ", cBase) + cmp(
+                        config.elytraConfig.boostConfig.boostDelay.toString(),
+                        cAccent
+                    )
                     lorelist += cmp(" ")
                     lorelist += cmp("Right-Click • ", cBase) + cmp(" +1", cAccent)
                     lorelist += cmp("Left-Click • ", cBase) + cmp("-1", cAccent)
@@ -220,7 +247,13 @@ class SettingsGUI(val player: Player) {
                     displayName(cmp("Max Boosts per flight", cBase))
 
                     setLore {
-                        lorelist += cmp("Current: ", cBase) + cmp(if (config.elytraConfig.boostConfig.maxBoosts == -1) "Infinite" else config.elytraConfig.boostConfig.maxBoosts.toString(), cAccent)
+                        lorelist += cmp(
+                            "Current: ",
+                            cBase
+                        ) + cmp(
+                            if (config.elytraConfig.boostConfig.maxBoosts == -1) "Infinite" else config.elytraConfig.boostConfig.maxBoosts.toString(),
+                            cAccent
+                        )
                         lorelist += cmp(" ")
                         lorelist += cmp("Right-Click • ", cBase) + cmp(" +1", cAccent)
                         lorelist += cmp("Left-Click • ", cBase) + cmp("-1", cAccent)
@@ -230,14 +263,20 @@ class SettingsGUI(val player: Player) {
         ) {
             if (it.isLeftClick) {
                 if (config.elytraConfig.boostConfig.maxBoosts == -1) return@of
-                    config.elytraConfig.boostConfig.maxBoosts -= 1
+                config.elytraConfig.boostConfig.maxBoosts -= 1
             } else {
                 config.elytraConfig.boostConfig.maxBoosts += 1
             }
 
             it.currentItem!!.meta {
                 setLore {
-                    lorelist += cmp("Current: ", cBase) + cmp(if (config.elytraConfig.boostConfig.maxBoosts == -1) "Infinite" else config.elytraConfig.boostConfig.maxBoosts.toString(), cAccent)
+                    lorelist += cmp(
+                        "Current: ",
+                        cBase
+                    ) + cmp(
+                        if (config.elytraConfig.boostConfig.maxBoosts == -1) "Infinite" else config.elytraConfig.boostConfig.maxBoosts.toString(),
+                        cAccent
+                    )
                     lorelist += cmp(" ")
                     lorelist += cmp("Right-Click • ", cBase) + cmp(" +1", cAccent)
                     lorelist += cmp("Left-Click • ", cBase) + cmp("-1", cAccent)
@@ -251,8 +290,8 @@ class SettingsGUI(val player: Player) {
         .rows(4)
         .provider(object : InventoryProvider {
             override fun init(player: Player, contents: InventoryContents) {
-                contents.fill(itemStack(Material.GRAY_STAINED_GLASS_PANE) { meta { displayName(cmp("")) } } )
-                contents.fillBorders(itemStack(Material.BLACK_STAINED_GLASS_PANE) { meta { displayName(cmp("")) } } )
+                contents.fill(itemStack(Material.GRAY_STAINED_GLASS_PANE) { meta { displayName(cmp("")) } })
+                contents.fillBorders(itemStack(Material.BLACK_STAINED_GLASS_PANE) { meta { displayName(cmp("")) } })
 
                 //  0  1  2  3  4  5  6  7  8
                 //  9 10 11 12 13 14 15 16 17

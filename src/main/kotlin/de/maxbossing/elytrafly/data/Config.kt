@@ -9,7 +9,6 @@ import kotlinx.serialization.json.Json
 import org.bukkit.Color
 import org.bukkit.Location
 import java.io.File
-import java.lang.IllegalArgumentException
 
 @Serializable
 data class Config(
@@ -96,7 +95,7 @@ fun loadConfig(): Config {
         )
     }
 
-    val json: Config =  Json.decodeFromString(configFile.readText())
+    val json: Config = Json.decodeFromString(configFile.readText())
     if (json.elytraConfig.boostConfig.boostDesign.colors.isEmpty()) {
         throw IllegalArgumentException("Colors cannot be empty!")
     }
