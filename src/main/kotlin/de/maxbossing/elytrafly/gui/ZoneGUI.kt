@@ -40,7 +40,7 @@ class ZoneGUI(val player: Player) {
 
 
     fun zoneButton(zone: Zone): IntelligentItem {
-        fun pseudoRandomMaterial(zone: Zone) = Material.entries.filter { it.name.endsWith("ARMOR_TRIM_SMITHING_TEMPLATE") }.random(Random(zone.hashCode()))
+        fun pseudoRandomMaterial(zone: Zone) = Material.entries.filter { it.name.endsWith("ARMOR_TRIM_SMITHING_TEMPLATE") }.random(Random(zone.name.hashCode()))
 
         fun xyzString(location: Location): String = "${location.x} ${location.y} ${location.z}"
 
@@ -50,13 +50,15 @@ class ZoneGUI(val player: Player) {
                     displayName(cmp(zone.name, cAccent))
                     flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS)
                     setLore {
-                        lorelist += cmp("Active: ", cBase) + if (ZoneManager.isActive(zone.name)) cmp("yes", MXColors.GREEN) else cmp("no", MXColors.RED)
+                        lorelist += cmp("Active: ", cBase) + if (ZoneManager.isActive(zone.name) == true) cmp("yes", MXColors.GREEN) else cmp("no", MXColors.RED)
+                        lorelist += cmp("Restricted: ", cBase) + if (ZoneManager.isRestricted(zone.name) == true) cmp("yes", MXColors.GREEN) else cmp("no", MXColors.RED)
                         lorelist += cmp("")
                         lorelist += cmp("World: ", cBase) + cmp(zone.loc1.world.name, cAccent)
                         lorelist += cmp("loc 1: ", cBase) + cmp(xyzString(zone.loc1), cAccent)
                         lorelist += cmp("loc 2: ", cBase) + cmp(xyzString(zone.loc2), cAccent)
                         lorelist += cmp("")
-                        lorelist += cmp("Left-Click  ∙  ", cBase) + cmp("Toggle", cAccent)
+                        lorelist += cmp("Left-Click  ∙  ", cBase) + cmp("Toggle Activation", cAccent)
+                        lorelist += cmp("Shift-Left-Click  ∙  ", cBase) + cmp("Toggle Restriction", cAccent)
                         lorelist += cmp("Right-Click  ∙  ", cBase) + cmp("Delete", bold = true, color = MXColors.INDIANRED)
                     }
                 }
@@ -64,21 +66,34 @@ class ZoneGUI(val player: Player) {
         ) {
             if (it.isRightClick)
                 ZoneDeleteGUI(player, zone)
+
             if (it.isLeftClick)
-                if (zone.active)
-                    ZoneManager.deactivateZone(zone.name)
-                else
-                    ZoneManager.activateZone(zone.name)
+                if (it.isShiftClick) {
+                    if (ZoneManager.isRestricted(zone.name) == true) {
+                        ZoneManager.unrestrictZone(zone.name)
+                    } else if (ZoneManager.isRestricted(zone.name) == false) {
+                        ZoneManager.restrictZone(zone.name)
+                    }
+                } else {
+                    if (ZoneManager.isActive(zone.name) == true) {
+                        ZoneManager.deactivateZone(zone.name)
+                    } else if (ZoneManager.isActive(zone.name) == false){
+                        ZoneManager.activateZone(zone.name)
+                    }
+                }
+
 
             it.currentItem!!.meta {
                 setLore {
-                    lorelist += cmp("Active: ", cBase) + if (ZoneManager.isActive(zone.name)) cmp("yes", MXColors.GREEN) else cmp("no", MXColors.RED)
+                    lorelist += cmp("Active: ", cBase) + if (ZoneManager.isActive(zone.name) == true) cmp("yes", MXColors.GREEN) else cmp("no", MXColors.RED)
+                    lorelist += cmp("Restricted: ", cBase) + if (ZoneManager.isRestricted(zone.name) == true) cmp("yes", MXColors.GREEN) else cmp("no", MXColors.RED)
                     lorelist += cmp("")
                     lorelist += cmp("World: ", cBase) + cmp(zone.loc1.world.name, cAccent)
                     lorelist += cmp("loc 1: ", cBase) + cmp(xyzString(zone.loc1), cAccent)
                     lorelist += cmp("loc 2: ", cBase) + cmp(xyzString(zone.loc2), cAccent)
                     lorelist += cmp("")
-                    lorelist += cmp("Left-Click  ∙  ", cBase) + cmp("Toggle", cAccent)
+                    lorelist += cmp("Left-Click  ∙  ", cBase) + cmp("Toggle Activation", cAccent)
+                    lorelist += cmp("Shift-Left-Click  ∙  ", cBase) + cmp("Toggle Restriction", cAccent)
                     lorelist += cmp("Right-Click  ∙  ", cBase) + cmp("Delete", bold = true, color = MXColors.INDIANRED)
                 }
             }
@@ -128,7 +143,7 @@ class ZoneGUI(val player: Player) {
                 else {
                     awaitBlockInput { it2 ->
                         awaitBlockInput { it3 ->
-                            ZoneManager.addZone(Zone(PlainTextComponentSerializer.plainText().serialize(it1.input!!), true, it2, it3))
+                            ZoneManager.addZone(Zone(PlainTextComponentSerializer.plainText().serialize(it1.input!!), true, false,  it2, it3))
                             player.sendMessage(prefix + cmp("Zone added!", cBase))
                         }
                     }

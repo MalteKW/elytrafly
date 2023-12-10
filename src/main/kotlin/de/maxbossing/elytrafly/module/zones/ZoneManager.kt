@@ -216,7 +216,7 @@ object ZoneManager {
      * @param loc2 The opposite corner of the [Zone]
      * @return false if zone already exists
      */
-    fun addZone(name: String, loc1: Location, loc2: Location): Boolean = addZone(Zone(name, true, loc1, loc2))
+    fun addZone(name: String, loc1: Location, loc2: Location): Boolean = addZone(Zone(name, true, false, loc1, loc2))
 
     /**
      * Adds a [Zone] to the Zone List
@@ -247,9 +247,13 @@ object ZoneManager {
 
     fun isInZone(player: Player): Zone? {
         for (zone in zones) {
-            if (!isActive(zone.name))
-                if (!player.hasPermission(Permissions.zoneBypass(zone.name)) && !player.hasPermission(Permissions.ZONE_BYPASS_ALL))
+            if (isActive(zone.name) == false)
                     continue
+
+            if (isRestricted(zone.name) == true)
+                if (!player.hasPermission(Permissions.ZONE_BYPASS_ALL) && !player.hasPermission(Permissions.zoneBypass(zone.name)) && !player.hasPermission(Permissions.zoneRestriction(zone.name)))
+                    continue
+
             if (player.isInArea(zone.loc1, zone.loc2))
                 return zone
         }
@@ -264,7 +268,6 @@ object ZoneManager {
 
                 it.active = true
 
-                debug("Activated zone ${it.name}")
                 return true
             }
         }
@@ -278,17 +281,51 @@ object ZoneManager {
                     return false
 
                 it.active = false
-                debug("Deactivated zone ${it.name}")
                 return true
             }
         }
         return false
     }
 
-    fun isActive(name: String): Boolean {
+    fun isActive(name: String): Boolean? {
         zones.forEach {
             if (it.name == name) {
                 return it.active
+            }
+        }
+        return null
+    }
+
+    fun isRestricted(name: String): Boolean? {
+        zones.forEach {
+            if (it.name == name) {
+                return it.restricted
+            }
+        }
+        return null
+    }
+
+    fun restrictZone(name: String): Boolean {
+        zones.forEach {
+            if (it.name == name) {
+                if (it.restricted)
+                    return false
+
+                it.restricted = true
+                return true
+            }
+        }
+        return false
+    }
+
+    fun unrestrictZone(name: String): Boolean {
+        zones.forEach {
+            if (it.name == name) {
+                if (!it.restricted)
+                    return false
+
+                it.restricted = false
+                return true
             }
         }
         return false

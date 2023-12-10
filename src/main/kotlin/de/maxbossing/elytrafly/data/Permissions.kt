@@ -11,5 +11,8 @@ object Permissions {
     const val GUI = "$BASE.gui"
 
     const val ZONE_BYPASS_ALL = "$BASE.zone.bypass"
+
     fun zoneBypass(name: String) = "$BASE.zone.bypass.${name.replace(" ", "-")}"
+
+    fun zoneRestriction(name: String) = "$BASE.zone.${name.replace(" ", "-")}"
 }
