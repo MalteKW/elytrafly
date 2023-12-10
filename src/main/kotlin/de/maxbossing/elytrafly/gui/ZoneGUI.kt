@@ -138,13 +138,21 @@ class ZoneGUI(val player: Player) {
             player.awaitChatInput(
                 question = prefix + cmp("Input the name of the Zone...", cBase),
             ){ it1 ->
-                if (it1.input == null)
-                    return@awaitChatInput
-                else {
-                    awaitBlockInput { it2 ->
-                        awaitBlockInput { it3 ->
-                            ZoneManager.addZone(Zone(PlainTextComponentSerializer.plainText().serialize(it1.input!!), true, false,  it2, it3))
-                            player.sendMessage(prefix + cmp("Zone added!", cBase))
+                if (it1.input == null) {
+                    player.sendMessage(prefix + cmp("No name specified!", MXColors.RED))
+                    ZoneGUI(player)
+                } else {
+                    val name = PlainTextComponentSerializer.plainText().serialize(it1.input!!)
+                    if (ZoneManager.alreadyExists(name)) {
+                        player.sendMessage(prefix + cmp("There is already a zone with the given name!", MXColors.RED))
+                    }else {
+                        awaitBlockInput { it2 ->
+                            awaitBlockInput { it3 ->
+                                if (ZoneManager.addZone(Zone(PlainTextComponentSerializer.plainText().serialize(it1.input!!), true, false,  it2, it3)))
+                                    player.sendMessage(prefix + cmp("Zone added!", cBase))
+                                else
+                                    player.sendMessage(prefix + cmp("Zone already exists!", MXColors.RED))
+                            }
                         }
                     }
                 }
