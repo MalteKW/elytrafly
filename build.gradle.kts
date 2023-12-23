@@ -7,6 +7,8 @@ plugins {
     id("io.papermc.paperweight.userdev") version "1.5.9"
     id("xyz.jpenilla.run-paper") version "2.2.0"
     id("net.minecrell.plugin-yml.bukkit") version "0.6.0"
+
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = "de.maxbossing"
@@ -29,6 +31,9 @@ dependencies {
 
     implementation("io.github.rysefoxx.inventory", "RyseInventory-Plugin", "1.6.5")
 
+    implementation("io.ktor", "ktor-client-core", "2.3.7")
+    implementation("io.ktor", "ktor-client-cio", "2.3.7")
+
     compileOnly("net.luckperms", "api", "5.4") // Optional Luckperms API for metadata
     compileOnly("me.clip", "placeholderapi", "2.11.5") // Optional Placeholder API for Placeholders
 }
@@ -41,8 +46,16 @@ tasks {
     assemble {
         dependsOn(reobfJar)
     }
+    build {
+        dependsOn(reobfJar)
+    }
     runServer {
         minecraftVersion("1.20.1")
+    }
+    shadowJar {
+        dependencies {
+            exclude("dev.jorel::")
+        }
     }
 }
 
@@ -62,11 +75,8 @@ bukkit {
     )
 
     libraries = listOf(
-        "org.jetbrains.kotlin:kotlin-stdlib:1.9.20",
         "dev.jorel:commandapi-bukkit-shade:9.2.0",
         "dev.jorel:commandapi-bukkit-kotlin:9.2.0",
-        "io.github.rysefoxx.inventory:RyseInventory-Plugin:1.6.5",
-        "de.maxbossing:mxpaper:2.0.0"
     )
 
     apiVersion = "1.20"

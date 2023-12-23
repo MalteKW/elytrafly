@@ -79,8 +79,8 @@ object ZoneManager {
         if (VanillaSettingsProvider.allowBoosts(player))
             player.sendMessage(
                 cmp("Press ", cBase) +
-                        Component.keybind().keybind("key.swapOffhand").build().color(MXColors.CORNFLOWERBLUE) +
-                        cmp(" to boost!")
+                    Component.keybind().keybind("key.swapOffhand").build().color(MXColors.CORNFLOWERBLUE) +
+                    cmp(" to boost!")
             )
     }
 

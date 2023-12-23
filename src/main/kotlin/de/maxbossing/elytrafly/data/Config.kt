@@ -14,6 +14,9 @@ import java.io.File
 data class Config(
     val prefix: String,
     val debug: Boolean,
+    var updateConfig: UpdateConfig = UpdateConfig(
+        announceUpdate = true
+    ),
     var elytraConfig: ElytraConfig,
     var zones: List<Zone>
 )
@@ -49,6 +52,11 @@ data class Zone(
     var restricted: Boolean = false,
     var loc1: @Serializable(with = LocationSerializer::class) Location,
     var loc2: @Serializable(with = LocationSerializer::class) Location
+)
+
+@Serializable
+data class UpdateConfig(
+    var announceUpdate: Boolean = true
 )
 
 fun loadConfig(): Config {

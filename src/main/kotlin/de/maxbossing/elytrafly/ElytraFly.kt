@@ -8,6 +8,7 @@ import de.maxbossing.elytrafly.module.placeholders.PlaceholderAPIExpansionPack
 import de.maxbossing.elytrafly.module.settings.LuckpermsSettingsProvider
 import de.maxbossing.elytrafly.module.settings.SettingsProvider
 import de.maxbossing.elytrafly.module.settings.VanillaSettingsProvider
+import de.maxbossing.elytrafly.module.updater.UpdateManager
 import de.maxbossing.elytrafly.module.zones.ZoneManager
 import de.maxbossing.elytrafly.utils.debug
 import de.maxbossing.mxpaper.MXColors
@@ -17,6 +18,8 @@ import de.maxbossing.mxpaper.main.prefix
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIBukkitConfig
 import io.github.rysefoxx.inventory.plugin.pagination.InventoryManager
+import io.ktor.client.*
+import io.ktor.client.engine.cio.*
 import net.kyori.adventure.text.minimessage.MiniMessage
 
 class ElytraFly : MXPaper() {
@@ -29,6 +32,8 @@ class ElytraFly : MXPaper() {
 
         // SettingsProvider
         lateinit var settingsProvider: SettingsProvider
+
+        lateinit var httpClient: HttpClient
     }
 
     // Inventory API
@@ -40,6 +45,9 @@ class ElytraFly : MXPaper() {
 
         // Set instance
         elytrafly = this
+
+        // Set KTOR client
+        httpClient = HttpClient(CIO)
 
         logger.info("ElytraFly loaded!")
     }
@@ -70,7 +78,6 @@ class ElytraFly : MXPaper() {
             debug("PlaceholderAPI Expansion registered")
         }
 
-
         // This manages the whole elytra system
         ZoneManager; debug("ZoneManager started")
 
@@ -82,6 +89,10 @@ class ElytraFly : MXPaper() {
         if (!ElytraFly.config.debug)
             Metrics(this, 20247)
 
+
+        // Update Manager
+        UpdateManager; debug("UpdateManager Loaded!")
+
         logger.info("ElytraFly enabled!")
     }
 
@@ -89,12 +100,16 @@ class ElytraFly : MXPaper() {
         // Save config
         de.maxbossing.elytrafly.data.saveConfig(); debug("Config Saved")
 
+        httpClient.close(); debug("HttpClient closed")
+
         logger.info("ElytraFly disabled!")
     }
 
 }
 
 val elytrafly by lazy { ElytraFly.elytrafly }
+val httpClient by lazy { ElytraFly.httpClient }
+
 val mn = MiniMessage.miniMessage()
 
 val cBase = MXColors.GRAY
