@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "de.maxbossing"
-version = 18
+version = 17
 
 repositories {
     mavenCentral()
