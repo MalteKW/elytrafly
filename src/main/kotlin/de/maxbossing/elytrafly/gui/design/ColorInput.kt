@@ -1,8 +1,8 @@
 package de.maxbossing.elytrafly.gui.design
 
-import de.maxbossing.elytrafly.cAccent
-import de.maxbossing.elytrafly.cBase
-import de.maxbossing.elytrafly.elytrafly
+import de.maxbossing.elytrafly.main.cAccent
+import de.maxbossing.elytrafly.main.cBase
+import de.maxbossing.elytrafly.main.elytrafly
 import de.maxbossing.mxpaper.MXColors
 import de.maxbossing.mxpaper.extensions.bukkit.cmp
 import de.maxbossing.mxpaper.extensions.bukkit.plus

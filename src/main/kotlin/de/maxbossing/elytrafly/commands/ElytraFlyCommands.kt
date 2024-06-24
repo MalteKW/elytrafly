@@ -2,7 +2,7 @@
 
 package de.maxbossing.elytrafly.commands
 
-import de.maxbossing.elytrafly.cBase
+import de.maxbossing.elytrafly.main.cBase
 import de.maxbossing.elytrafly.data.Permissions
 import de.maxbossing.elytrafly.data.saveConfig
 import de.maxbossing.elytrafly.gui.ZoneGUI

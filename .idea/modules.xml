@@ -6,6 +6,8 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/ElytraFly.test.iml" filepath="$PROJECT_DIR$/.idea/modules/ElytraFly.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/de.maxbossing.ElytraFly.main.iml" filepath="$PROJECT_DIR$/.idea/modules/de.maxbossing.ElytraFly.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/de.maxbossing.ElytraFly.test.iml" filepath="$PROJECT_DIR$/.idea/modules/de.maxbossing.ElytraFly.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/elytrafly.ElytraFly.main.iml" filepath="$PROJECT_DIR$/.idea/modules/elytrafly.ElytraFly.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/elytrafly.ElytraFly.test.iml" filepath="$PROJECT_DIR$/.idea/modules/elytrafly.ElytraFly.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/mnt.ElytraFly.main.iml" filepath="$PROJECT_DIR$/.idea/modules/mnt.ElytraFly.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/mnt.ElytraFly.test.iml" filepath="$PROJECT_DIR$/.idea/modules/mnt.ElytraFly.test.iml" />
     </modules>

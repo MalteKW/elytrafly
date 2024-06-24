@@ -2,16 +2,17 @@
 
 package de.maxbossing.elytrafly.module.zones
 
-import de.maxbossing.elytrafly.ElytraFly
-import de.maxbossing.elytrafly.cBase
+import de.maxbossing.elytrafly.main.ElytraFly
+import de.maxbossing.elytrafly.main.cBase
 import de.maxbossing.elytrafly.data.Permissions
 import de.maxbossing.elytrafly.data.Zone
-import de.maxbossing.elytrafly.mn
+import de.maxbossing.elytrafly.main.mn
 import de.maxbossing.elytrafly.module.settings.VanillaSettingsProvider
 import de.maxbossing.mxpaper.MXColors
 import de.maxbossing.mxpaper.extensions.bukkit.cmp
 import de.maxbossing.mxpaper.extensions.bukkit.isInArea
 import de.maxbossing.mxpaper.extensions.bukkit.plus
+import de.maxbossing.mxpaper.extensions.pluginKey
 import de.maxbossing.mxpaper.items.flags
 import de.maxbossing.mxpaper.items.itemStack
 import de.maxbossing.mxpaper.items.meta
@@ -25,11 +26,13 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.FireworkMeta
+import org.bukkit.persistence.PersistentDataType
 
 object ZoneManager {
 
     private val config = ElytraFly.config
 
+    val ELYTRA_KEY = pluginKey("elytra")
 
     /** Saved chestplates for players that are flying */
     var chestPlates = mutableMapOf<Player, ItemStack?>()
@@ -68,7 +71,7 @@ object ZoneManager {
      * @param player The Player to give the elytra to
      */
     fun giveElytra(player: Player) {
-        if (player.inventory.chestplate == elytra) return
+        if (player.inventory.chestplate?.itemMeta?.persistentDataContainer?.has(ZoneManager.ELYTRA_KEY) == true) return
 
         chestPlates[player] = player.inventory.chestplate // save chestplate
 
@@ -92,7 +95,7 @@ object ZoneManager {
      * @param player The Player to remove the Elytra from
      */
     fun removeElytra(player: Player) {
-        if (player.inventory.chestplate != elytra) return
+        if (player.inventory.chestplate?.itemMeta?.persistentDataContainer?.has(ZoneManager.ELYTRA_KEY) == false || player.inventory.chestplate == null) return
 
         player.inventory.chestplate = chestPlates[player]
 
@@ -179,10 +182,12 @@ object ZoneManager {
                     )
                 )
 
+                persistentDataContainer.set(ELYTRA_KEY, PersistentDataType.BYTE, 0xff.toByte())
+
                 isUnbreakable = true
 
                 addEnchant(
-                    Enchantment.ARROW_DAMAGE,
+                    Enchantment.POWER,
                     1,
                     true
                 )

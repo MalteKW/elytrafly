@@ -2,9 +2,11 @@
 
 package de.maxbossing.elytrafly.module.zones
 
-import de.maxbossing.elytrafly.ElytraFly
+import de.maxbossing.elytrafly.main.ElytraFly
 import de.maxbossing.elytrafly.data.Permissions
 import de.maxbossing.mxpaper.event.listen
+import de.maxbossing.mxpaper.extensions.bukkit.isStandingOnBlock
+import de.maxbossing.mxpaper.items.meta
 import de.maxbossing.mxpaper.runnables.taskRunLater
 import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityDamageEvent
@@ -29,16 +31,19 @@ object ZoneListener {
         val player = it.player
 
         // No need to do it again if a Player already has a chestplate
-        if (player.inventory.chestplate == ZoneManager.elytra) return@listen
+        if (player.inventory.chestplate?.itemMeta?.persistentDataContainer?.has(ZoneManager.ELYTRA_KEY) == true) return@listen
 
-        if (ZoneManager.isInZone(player) != null)
+        if (ZoneManager.isInZone(player) != null) {
             ZoneManager.giveElytra(player)
+        }
     }
 
     /** Boosts players when they press `F`, or their offhandSwapKey */
     private val boostListener = listen<PlayerSwapHandItemsEvent> {
         if (!ElytraFly.config.elytraConfig.boostConfig.boost) return@listen
-        if (it.player.inventory.chestplate != ZoneManager.elytra) return@listen
+
+        if (it.player.inventory.chestplate?.itemMeta?.persistentDataContainer?.has(ZoneManager.ELYTRA_KEY) != true) return@listen
+
         if (!it.player.hasPermission(Permissions.BOOST)) return@listen
         if (!it.player.isGliding) return@listen
         if (ZoneManager.boostDelays.contains(it.player)) return@listen
@@ -56,7 +61,7 @@ object ZoneListener {
             }
         }
 
-        it.player.boostElytra(ZoneManager.boostFirework)
+        it.player.fireworkBoost(ZoneManager.boostFirework)
 
         if (it.player.hasPermission(Permissions.DELAY_BYPASS)) return@listen // No need to delay if bypass is set
 
@@ -72,13 +77,14 @@ object ZoneListener {
     /** Removes the Elytra and used boosts from a Player who landed */
     private val groundListener = listen<EntityToggleGlideEvent> {
         if (it.entity !is Player) return@listen
-        if ((it.entity as Player).inventory.chestplate != ZoneManager.elytra) return@listen
-        if (it.isGliding) return@listen
-
-        ZoneManager.usedBoosts.remove(it.entity)
+        if ((it.entity as Player).inventory.chestplate?.itemMeta?.persistentDataContainer?.has(ZoneManager.ELYTRA_KEY) != true) return@listen
+        if (!it.entity.isStandingOnBlock || it.isGliding) return@listen
 
         if (ZoneManager.isInZone(it.entity as Player) != null)
             return@listen
+
+
+        ZoneManager.usedBoosts.remove(it.entity)
 
         taskRunLater(
             (20).toLong(),
@@ -92,7 +98,8 @@ object ZoneListener {
     private val damageListener = listen<EntityDamageEvent> {
         if (it.entity !is Player) return@listen
 
-        if ((it.entity as Player).inventory.chestplate != ZoneManager.elytra) return@listen
+        if ((it.entity as Player).inventory.chestplate?.itemMeta?.persistentDataContainer?.has(ZoneManager.ELYTRA_KEY) != true) return@listen
+        println("${it.entity} is wearing an elytra")
 
         if (it.cause != EntityDamageEvent.DamageCause.FALL && it.cause != EntityDamageEvent.DamageCause.FLY_INTO_WALL && it.cause != EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) return@listen
 
@@ -101,9 +108,10 @@ object ZoneListener {
 
     /** Removes the Elytra if going out of zone */
     private val moveListener = listen<PlayerMoveEvent> {
-        if (it.player.inventory.chestplate != ZoneManager.elytra) return@listen
+        if (it.player.inventory.chestplate?.itemMeta?.persistentDataContainer?.has(ZoneManager.ELYTRA_KEY) != true) return@listen
 
-        if (it.player.isGliding) return@listen
+        if (it.player.isGliding || !it.player.isStandingOnBlock) return@listen
+
 
         if (ZoneManager.isInZone(it.player) != null)
             return@listen

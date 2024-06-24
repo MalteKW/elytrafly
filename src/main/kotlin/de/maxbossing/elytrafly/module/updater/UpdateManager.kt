@@ -1,10 +1,9 @@
 package de.maxbossing.elytrafly.module.updater
 
-import de.maxbossing.elytrafly.ElytraFly
-import de.maxbossing.elytrafly.cAccent
+import de.maxbossing.elytrafly.main.ElytraFly
+import de.maxbossing.elytrafly.main.cAccent
 import de.maxbossing.elytrafly.data.Permissions
-import de.maxbossing.elytrafly.elytrafly
-import de.maxbossing.elytrafly.httpClient
+import de.maxbossing.elytrafly.main.elytrafly
 import de.maxbossing.mxpaper.MXColors
 import de.maxbossing.mxpaper.event.listen
 import de.maxbossing.mxpaper.event.register
@@ -12,11 +11,9 @@ import de.maxbossing.mxpaper.extensions.bukkit.addUrl
 import de.maxbossing.mxpaper.extensions.bukkit.cmp
 import de.maxbossing.mxpaper.extensions.bukkit.plus
 import de.maxbossing.mxpaper.main.prefix
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
-import kotlinx.coroutines.runBlocking
 import org.bukkit.event.player.PlayerJoinEvent
+import java.net.URI
+import java.nio.charset.Charset
 
 object UpdateManager {
 
@@ -46,22 +43,12 @@ object UpdateManager {
         )
     }
 
-    private val versionURL = "https://raw.githubusercontent.com/maxbossing/elytrafly/master/version.txt"
+    private const val VERSION_URL = "https://api.exobyte.dev/version?application=elytrafly"
 
     @JvmName("getRemoveVersionFromWeb")
-    private fun getRemoteVersion(): Int = runBlocking {
-        val response = httpClient.get(versionURL)
+    private fun getRemoteVersion(): Int =
+        URI(VERSION_URL).toURL().readText(Charset.defaultCharset()).filter { it.isDigit() }.toIntOrNull() ?: -1
 
-        if (response.status != HttpStatusCode.OK)
-            return@runBlocking -1
-
-        val text = response.bodyAsText().replace(" ", "").replace("\n", "")
-
-        if (text.toIntOrNull() == null)
-            return@runBlocking -1
-
-        text.toInt()
-    }
 
     fun needsUpdate(): Boolean =
         if (remoteVersion == -1) false else elytrafly.pluginMeta.version.toInt() < remoteVersion

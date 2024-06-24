@@ -1,7 +1,7 @@
 package de.maxbossing.elytrafly.data
 
-import de.maxbossing.elytrafly.ElytraFly
-import de.maxbossing.elytrafly.elytrafly
+import de.maxbossing.elytrafly.main.ElytraFly
+import de.maxbossing.elytrafly.main.elytrafly
 import de.maxbossing.mxpaper.extensions.kotlin.createIfNotExists
 import de.maxbossing.mxpaper.serialization.LocationSerializer
 import kotlinx.serialization.Serializable

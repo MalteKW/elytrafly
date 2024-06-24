@@ -1,28 +1,29 @@
 package de.maxbossing.elytrafly.gui
 
-import de.maxbossing.elytrafly.ElytraFly
-import de.maxbossing.elytrafly.cAccent
-import de.maxbossing.elytrafly.cBase
-import de.maxbossing.elytrafly.elytrafly
+import de.maxbossing.elytrafly.main.ElytraFly
+import de.maxbossing.elytrafly.main.cAccent
+import de.maxbossing.elytrafly.main.cBase
+import de.maxbossing.elytrafly.main.elytrafly
 import de.maxbossing.elytrafly.gui.design.BoostDesign
 import de.maxbossing.elytrafly.utils.skullTexture
 import de.maxbossing.mxpaper.MXHeads
-import de.maxbossing.mxpaper.chat.input.awaitChatInput
+import de.maxbossing.mxpaper.await.awaitChatInput
 import de.maxbossing.mxpaper.extensions.bukkit.cmp
 import de.maxbossing.mxpaper.extensions.bukkit.plus
 import de.maxbossing.mxpaper.extensions.deserialized
 import de.maxbossing.mxpaper.items.itemStack
 import de.maxbossing.mxpaper.items.meta
 import de.maxbossing.mxpaper.items.setLore
+import de.maxbossing.mxpaper.main.cError
 import de.maxbossing.mxpaper.main.prefix
 import io.github.rysefoxx.inventory.plugin.content.IntelligentItem
 import io.github.rysefoxx.inventory.plugin.content.InventoryContents
 import io.github.rysefoxx.inventory.plugin.content.InventoryProvider
 import io.github.rysefoxx.inventory.plugin.pagination.RyseInventory
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.meta.SkullMeta
+import kotlin.time.Duration.Companion.minutes
 
 class SettingsGUI(val player: Player) {
 
@@ -190,20 +191,24 @@ class SettingsGUI(val player: Player) {
         ) {
             it.whoClicked.closeInventory()
             (it.whoClicked as Player).awaitChatInput(
-                question = prefix + cmp("Input the new Prefix into the chat!"),
-                timeoutSeconds = 2 * 60
-            ) { result ->
-                prefix = PlainTextComponentSerializer.plainText().serialize(result.input!!).plus(" ").deserialized
-                gui.open(it.whoClicked as Player)
-                it.whoClicked.sendMessage(prefix + cmp("Prefix set!", cBase))
-                it.currentItem!!.meta {
-                    setLore {
-                        lorelist += cmp("Click to set the Plugin prefix")
-                        lorelist += cmp("Supports MiniMessage", cBase)
-                        lorelist += cmp("Current Prefix: ", cBase) + prefix
+                initMessage = prefix + cmp("Input the new Prefix into the chat!"),
+                maxTime = 2.minutes,
+                onChat = { result ->
+                    prefix = result.plus(" ").deserialized
+                    it.whoClicked.sendMessage(prefix + cmp("Prefix set!", cBase))
+                    it.currentItem!!.meta {
+                        setLore {
+                            lorelist += cmp("Click to set the Plugin prefix")
+                            lorelist += cmp("Supports MiniMessage", cBase)
+                            lorelist += cmp("Current Prefix: ", cBase) + prefix
+                        }
                     }
-                }
-            }
+                },
+                onTimeout = {
+                    it.whoClicked.sendMessage(prefix + cmp("You didn't specify a Prefix!", cError))
+                },
+                callback = { gui.open(it.whoClicked as Player)}
+            )
         }
     }
 
@@ -223,20 +228,26 @@ class SettingsGUI(val player: Player) {
         ) {
             it.whoClicked.closeInventory()
             (it.whoClicked as Player).awaitChatInput(
-                question = prefix + cmp("Input the Elytra Name into the chat!"),
-                timeoutSeconds = 2 * 60
-            ) { result ->
-                ElytraFly.config.elytraConfig.name = PlainTextComponentSerializer.plainText().serialize(result.input!!)
-                gui.open(it.whoClicked as Player)
-                it.whoClicked.sendMessage(prefix + cmp("Elytra Name set!", cBase))
-                it.currentItem!!.meta {
-                    setLore {
-                        lorelist += cmp("Click to set the Elytra Name")
-                        lorelist += cmp("Supports MiniMessage", cBase)
-                        lorelist += cmp("Current Name: ", cBase) + ElytraFly.config.elytraConfig.name.deserialized
+                initMessage = prefix + cmp("Input the elytra name into the chat!"),
+                maxTime = 2.minutes,
+                onChat = { result ->
+                    ElytraFly.config.elytraConfig.name = result
+                    it.whoClicked.sendMessage(prefix + cmp("Elytra Name set!", cBase))
+                    it.currentItem!!.meta {
+                        setLore {
+                            lorelist += cmp("Click to set the Elytra Name")
+                            lorelist += cmp("Supports MiniMessage", cBase)
+                            lorelist += cmp("Current Name: ", cBase) + ElytraFly.config.elytraConfig.name.deserialized
+                        }
                     }
+                },
+                onTimeout = {
+                    it.whoClicked.sendMessage(prefix + cmp("You didn't specify an elytra name!", cError))
+                },
+                callback = {
+                    gui.open(it.whoClicked as Player)
                 }
-            }
+            )
         }
     }
 

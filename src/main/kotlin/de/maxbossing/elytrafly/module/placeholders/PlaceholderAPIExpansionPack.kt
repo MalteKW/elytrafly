@@ -2,8 +2,8 @@
 
 package de.maxbossing.elytrafly.module.placeholders
 
-import de.maxbossing.elytrafly.ElytraFly
-import de.maxbossing.elytrafly.elytrafly
+import de.maxbossing.elytrafly.main.ElytraFly
+import de.maxbossing.elytrafly.main.elytrafly
 import de.maxbossing.elytrafly.module.zones.ZoneManager
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import org.bukkit.OfflinePlayer

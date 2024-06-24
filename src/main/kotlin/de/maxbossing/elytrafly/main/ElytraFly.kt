@@ -1,4 +1,4 @@
-package de.maxbossing.elytrafly
+package de.maxbossing.elytrafly.main
 
 import de.maxbossing.elytrafly.commands.ElytraFlyCommands
 import de.maxbossing.elytrafly.data.Config
@@ -18,8 +18,6 @@ import de.maxbossing.mxpaper.main.prefix
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIBukkitConfig
 import io.github.rysefoxx.inventory.plugin.pagination.InventoryManager
-import io.ktor.client.*
-import io.ktor.client.engine.cio.*
 import net.kyori.adventure.text.minimessage.MiniMessage
 
 class ElytraFly : MXPaper() {
@@ -32,8 +30,6 @@ class ElytraFly : MXPaper() {
 
         // SettingsProvider
         lateinit var settingsProvider: SettingsProvider
-
-        lateinit var httpClient: HttpClient
     }
 
     // Inventory API
@@ -46,19 +42,16 @@ class ElytraFly : MXPaper() {
         // Set instance
         elytrafly = this
 
-        // Set KTOR client
-        httpClient = HttpClient(CIO)
-
         logger.info("ElytraFly loaded!")
     }
 
     override fun startup() {
 
         // Load config
-        ElytraFly.config = loadConfig(); debug("Loaded config")
+        Companion.config = loadConfig(); debug("Loaded config")
 
         // Set prefix
-        prefix = mn.deserialize(ElytraFly.config.prefix); debug("Deserialized Prefix")
+        prefix = mn.deserialize(Companion.config.prefix); debug("Deserialized Prefix")
 
         // Commands
         CommandAPI.onEnable(); debug("CommandAPI Enabled")
@@ -86,7 +79,7 @@ class ElytraFly : MXPaper() {
 
         // bStats Log
         // We don't want fake data
-        if (!ElytraFly.config.debug)
+        if (!Companion.config.debug)
             Metrics(this, 20247)
 
 
@@ -100,15 +93,12 @@ class ElytraFly : MXPaper() {
         // Save config
         de.maxbossing.elytrafly.data.saveConfig(); debug("Config Saved")
 
-        httpClient.close(); debug("HttpClient closed")
-
         logger.info("ElytraFly disabled!")
     }
 
 }
 
 val elytrafly by lazy { ElytraFly.elytrafly }
-val httpClient by lazy { ElytraFly.httpClient }
 
 val mn = MiniMessage.miniMessage()
 

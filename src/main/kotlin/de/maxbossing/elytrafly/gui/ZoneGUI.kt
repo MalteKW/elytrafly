@@ -1,15 +1,15 @@
 package de.maxbossing.elytrafly.gui
 
-import de.maxbossing.elytrafly.ElytraFly
-import de.maxbossing.elytrafly.cAccent
-import de.maxbossing.elytrafly.cBase
+import de.maxbossing.elytrafly.main.ElytraFly
+import de.maxbossing.elytrafly.main.cAccent
+import de.maxbossing.elytrafly.main.cBase
 import de.maxbossing.elytrafly.data.Zone
-import de.maxbossing.elytrafly.elytrafly
+import de.maxbossing.elytrafly.main.elytrafly
 import de.maxbossing.elytrafly.module.zones.ZoneManager
 import de.maxbossing.elytrafly.utils.skullTexture
 import de.maxbossing.mxpaper.MXColors
 import de.maxbossing.mxpaper.MXHeads
-import de.maxbossing.mxpaper.chat.input.awaitChatInput
+import de.maxbossing.mxpaper.await.awaitChatInput
 import de.maxbossing.mxpaper.event.SingleListener
 import de.maxbossing.mxpaper.event.listen
 import de.maxbossing.mxpaper.event.unregister
@@ -26,7 +26,6 @@ import io.github.rysefoxx.inventory.plugin.content.InventoryProvider
 import io.github.rysefoxx.inventory.plugin.pagination.Pagination
 import io.github.rysefoxx.inventory.plugin.pagination.RyseInventory
 import io.github.rysefoxx.inventory.plugin.pagination.SlotIterator
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -162,21 +161,20 @@ class ZoneGUI(val player: Player) {
             player.closeInventory()
 
             player.awaitChatInput(
-                question = prefix + cmp("Input the name of the Zone...", cBase),
-            ) { it1 ->
-                if (it1.input == null) {
+                initMessage = prefix + cmp("Input the name of the Zone...", cBase),
+                onChat = { it1 ->
+                if (it1.isBlank()) {
                     player.sendMessage(prefix + cmp("No name specified!", MXColors.RED))
                     ZoneGUI(player)
                 } else {
-                    val name = PlainTextComponentSerializer.plainText().serialize(it1.input!!)
-                    if (ZoneManager.alreadyExists(name)) {
+                    if (ZoneManager.alreadyExists(it1)) {
                         player.sendMessage(prefix + cmp("There is already a zone with the given name!", MXColors.RED))
                     } else {
                         awaitBlockInput { it2 ->
                             awaitBlockInput { it3 ->
                                 if (ZoneManager.addZone(
                                         Zone(
-                                            PlainTextComponentSerializer.plainText().serialize(it1.input!!),
+                                            it1,
                                             true,
                                             false,
                                             it2,
@@ -191,7 +189,7 @@ class ZoneGUI(val player: Player) {
                         }
                     }
                 }
-            }
+            })
         }
     }
 

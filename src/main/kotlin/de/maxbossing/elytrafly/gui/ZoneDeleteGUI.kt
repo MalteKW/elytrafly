@@ -1,9 +1,9 @@
 package de.maxbossing.elytrafly.gui
 
-import de.maxbossing.elytrafly.cAccent
-import de.maxbossing.elytrafly.cBase
+import de.maxbossing.elytrafly.main.cAccent
+import de.maxbossing.elytrafly.main.cBase
 import de.maxbossing.elytrafly.data.Zone
-import de.maxbossing.elytrafly.elytrafly
+import de.maxbossing.elytrafly.main.elytrafly
 import de.maxbossing.elytrafly.module.zones.ZoneManager
 import de.maxbossing.elytrafly.utils.skullTexture
 import de.maxbossing.mxpaper.MXColors

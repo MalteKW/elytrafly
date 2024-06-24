@@ -1,7 +1,7 @@
 package de.maxbossing.elytrafly.utils
 
-import de.maxbossing.elytrafly.ElytraFly
-import de.maxbossing.elytrafly.elytrafly
+import de.maxbossing.elytrafly.main.ElytraFly
+import de.maxbossing.elytrafly.main.elytrafly
 
 fun debug(vararg msg: String) {
     if (ElytraFly.config.debug)

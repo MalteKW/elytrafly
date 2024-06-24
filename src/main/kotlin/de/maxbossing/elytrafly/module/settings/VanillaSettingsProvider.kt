@@ -1,6 +1,6 @@
 package de.maxbossing.elytrafly.module.settings
 
-import de.maxbossing.elytrafly.ElytraFly
+import de.maxbossing.elytrafly.main.ElytraFly
 import de.maxbossing.elytrafly.data.Permissions
 import org.bukkit.entity.Player
 
