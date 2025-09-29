@@ -35,7 +35,7 @@ class ColorInput(
                 meta<LeatherArmorMeta> {
 
                     flag(ItemFlag.HIDE_DYE)
-                    flag(ItemFlag.HIDE_ITEM_SPECIFICS)
+                    flag(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
                     flag(ItemFlag.HIDE_ATTRIBUTES)
 
                     displayName(cmp("Click to finish", MXColors.GREEN))

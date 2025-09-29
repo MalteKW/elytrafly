@@ -151,7 +151,7 @@ class BoostDesign(val player: Player) {
                 meta<LeatherArmorMeta> {
                     displayName(cmp("${if (!fade) "Main" else "Fade"} Color ${index + 1}", cAccent))
 
-                    flag(ItemFlag.HIDE_ITEM_SPECIFICS)
+                    flag(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
                     flag(ItemFlag.HIDE_ATTRIBUTES)
                     flag(ItemFlag.HIDE_DYE)
 

@@ -39,7 +39,7 @@ class ZoneDeleteGUI(val player: Player, val zone: Zone) {
                     displayName(cmp(zone.name, cAccent))
 
                     addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
-                    addItemFlags(ItemFlag.HIDE_ITEM_SPECIFICS)
+                    addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
 
                     setLore {
                         lorelist += cmp("World: ", cBase) + cmp(zone.loc1.world.name, cAccent)

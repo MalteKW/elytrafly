@@ -84,7 +84,7 @@ class ElytraFly : MXPaper() {
 
 
         // Update Manager
-        UpdateManager; debug("UpdateManager Loaded!")
+        //UpdateManager; debug("UpdateManager Loaded!")
 
         logger.info("ElytraFly enabled!")
     }

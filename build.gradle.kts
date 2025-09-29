@@ -5,30 +5,30 @@ plugins {
     kotlin("jvm") version "2.0.0"
     kotlin("plugin.serialization") version "2.0.0"
 
-    id("io.papermc.paperweight.userdev") version "1.7.1"
+    id("io.papermc.paperweight.userdev") version "2.0.0-beta.18"
     id("xyz.jpenilla.run-paper") version "2.3.0"
     id("net.minecrell.plugin-yml.paper") version "0.6.0"
 }
 
 group = "de.maxbossing"
-version = 18
+version = 19
 
 repositories {
     mavenCentral()
-    maven("https://s01.oss.sonatype.org/content/groups/public/")
+    maven("https://repo.networkmanager.xyz/repository/maven-public/")
 
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/") // PlaceholderAPI
 }
 
 dependencies {
-    paperweight.paperDevBundle("1.20.6-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("1.21.8-R0.1-SNAPSHOT")
 
     paperLibrary("de.maxbossing", "mxpaper", "3.0.0")
 
-    paperLibrary("dev.jorel", "commandapi-bukkit-shade-mojang-mapped", "9.5.1")
-    paperLibrary("dev.jorel", "commandapi-bukkit-kotlin", "9.5.1")
+    paperLibrary("dev.jorel", "commandapi-bukkit-shade-mojang-mapped", "10.1.2")
+    paperLibrary("dev.jorel", "commandapi-bukkit-kotlin", "10.1.2")
 
-    paperLibrary("io.github.rysefoxx.inventory", "RyseInventory-Plugin", "1.6.5")
+    paperLibrary("io.github.rysefoxx.inventory", "RyseInventory-Plugin", "1.6.13")
 
     compileOnly("net.luckperms", "api", "5.4") // Optional Luckperms API for metadata
     compileOnly("me.clip", "placeholderapi", "2.11.5") // Optional Placeholder API for Placeholders
@@ -40,7 +40,7 @@ kotlin {
 
 tasks {
     runServer {
-        minecraftVersion("1.20.6")
+        minecraftVersion("1.21.8")
     }
 }
 

@@ -54,7 +54,7 @@ class ZoneGUI(val player: Player) {
             itemStack(pseudoRandomMaterial(zone)) {
                 meta {
                     displayName(cmp(zone.name, cAccent))
-                    flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS)
+                    flags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
                     setLore {
                         lorelist += cmp("Active: ", cBase) + if (ZoneManager.isActive(zone.name) == true) cmp(
                             "yes",
