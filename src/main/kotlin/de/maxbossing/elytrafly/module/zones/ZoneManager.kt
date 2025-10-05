@@ -184,7 +184,7 @@ object ZoneManager {
 
                 persistentDataContainer.set(ELYTRA_KEY, PersistentDataType.BYTE, 0xff.toByte())
 
-                isUnbreakable = true
+                isUnbreakable = false
 
                 addEnchant(
                     Enchantment.POWER,
