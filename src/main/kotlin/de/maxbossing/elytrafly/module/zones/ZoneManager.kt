@@ -73,6 +73,9 @@ object ZoneManager {
     fun giveElytra(player: Player) {
         if (player.inventory.chestplate?.itemMeta?.persistentDataContainer?.has(ZoneManager.ELYTRA_KEY) == true) return
 
+        if (elytra.itemMeta.isUnbreakable != ElytraFly.config.elytraConfig.isUnbreakable)
+            elytra = buildElytra() // rebuild elytra if isUbreakable was changed
+
         chestPlates[player] = player.inventory.chestplate // save chestplate
 
         player.inventory.chestplate = elytra // give elytra
@@ -184,7 +187,7 @@ object ZoneManager {
 
                 persistentDataContainer.set(ELYTRA_KEY, PersistentDataType.BYTE, 0xff.toByte())
 
-                isUnbreakable = false
+                isUnbreakable = ElytraFly.config.elytraConfig.isUnbreakable
 
                 addEnchant(
                     Enchantment.POWER,

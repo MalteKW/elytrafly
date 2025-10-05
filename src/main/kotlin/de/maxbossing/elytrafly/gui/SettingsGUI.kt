@@ -296,6 +296,45 @@ class SettingsGUI(val player: Player) {
         }
     }
 
+    fun unbreakableItem(): IntelligentItem {
+        return IntelligentItem.of(
+            itemStack(Material.GOLDEN_CARROT) {
+                meta {
+                    displayName(cmp("Unbreakable"))
+                    setLore {
+                        lorelist += if (config.elytraConfig.isUnbreakable) cmp(
+                            "Active",
+                            cAccent,
+                            underlined = true
+                        ) else cmp("Active", cBase)
+                        lorelist += if (!config.elytraConfig.isUnbreakable) cmp(
+                            "Not Active",
+                            cAccent,
+                            underlined = true
+                        ) else cmp("Not Active", cBase)
+                    }
+                }
+            }
+
+        ) {
+            config.elytraConfig.isUnbreakable = !config.elytraConfig.isUnbreakable
+            it.currentItem!!.meta {
+                setLore {
+                    lorelist += if (config.elytraConfig.isUnbreakable) cmp(
+                        "Active",
+                        cAccent,
+                        underlined = true
+                    ) else cmp("Active", cBase)
+                    lorelist += if (!config.elytraConfig.isUnbreakable) cmp(
+                        "Not Active",
+                        cAccent,
+                        underlined = true
+                    ) else cmp("Not Active", cBase)
+                }
+            }
+        }
+    }
+
     private val gui = RyseInventory.builder()
         .title(cmp("ElytraFly >>", cBase) + cmp(" Settings", cAccent))
         .rows(4)
@@ -333,6 +372,9 @@ class SettingsGUI(val player: Player) {
 
                 // 16 - Max Boosts Settings
                 contents.set(16, maxUsesButton())
+
+                // 25 - Unbreakable
+                contents.set(25, unbreakableItem())
 
             }
         })

@@ -25,7 +25,8 @@ data class Config(
 data class ElytraConfig(
     // Name of the Elytra, serialized with MiniMessage
     var name: String,
-    var boostConfig: BoostConfig
+    var boostConfig: BoostConfig,
+    var isUnbreakable: Boolean = false
 )
 
 @Serializable
@@ -75,6 +76,7 @@ fun loadConfig(): Config {
 
                     elytraConfig = ElytraConfig(
                         name = "<rainbow>Elytra</rainbow>",
+                        isUnbreakable = false,
 
                         boostConfig = BoostConfig(
                             boost = true,
