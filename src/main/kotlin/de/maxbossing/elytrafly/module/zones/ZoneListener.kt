@@ -99,7 +99,7 @@ object ZoneListener {
         if (it.entity !is Player) return@listen
 
         if ((it.entity as Player).inventory.chestplate?.itemMeta?.persistentDataContainer?.has(ZoneManager.ELYTRA_KEY) != true) return@listen
-        println("${it.entity} is wearing an elytra")
+        //println("${it.entity} is wearing an elytra")
 
         if (it.cause != EntityDamageEvent.DamageCause.FALL && it.cause != EntityDamageEvent.DamageCause.FLY_INTO_WALL && it.cause != EntityDamageEvent.DamageCause.ENTITY_EXPLOSION) return@listen
 
